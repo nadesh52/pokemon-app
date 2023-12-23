@@ -2,6 +2,8 @@ import { Box, Stack, Radio, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 import { typePokemon } from "../types/Pokemon";
 
+import all from "../assets/icons/types/all.png";
+
 function FilterType({ selectedType }) {
   const [selectedValue, setSelectedValue] = useState<string>("all");
 
@@ -24,7 +26,7 @@ function FilterType({ selectedType }) {
                 icon={
                   <Box
                     component="img"
-                    src={`./src/assets/icons/types/${type}.png`}
+                    src={`../src/assets/icons/types/${type}.png`}
                     width={25}
                     sx={{ filter: "grayscale(100%)" }}
                   />
@@ -32,12 +34,11 @@ function FilterType({ selectedType }) {
                 checkedIcon={
                   <Box
                     component="img"
-                    src={`./src/assets/icons/types/${type}.png`}
+                    src={`../src/assets/icons/types/${type}.png`}
                     width={25}
                   />
                 }
               />
-              {console.log(`./src/assets/icons/types/${type}.png`)}
             </Tooltip>
           </Box>
         ))}

@@ -61,7 +61,7 @@ const GridView = ({
             >
               <Box
                 component="img"
-                src={`./src/assets/icons/types/${t.type.name}.png`}
+                src={`../src/assets/icons/types/${t.type.name}.png`}
                 width={25}
               />
             </Tooltip>
