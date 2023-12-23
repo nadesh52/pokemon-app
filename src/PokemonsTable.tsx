@@ -4,7 +4,6 @@ import {
   Container,
   Grid,
   Stack,
-  Tooltip,
   Select,
   SelectChangeEvent,
   FormControl,
@@ -12,19 +11,20 @@ import {
   Typography,
   CircularProgress,
 } from "@mui/material";
-import { getPokemon, generations } from "./fetcher";
-import { Pokemon, PokemonData, PokemonType } from "./types/Pokemon";
+import { getPokemon, generations, Generation } from "./fetcher";
+import { Pokemon, PokemonData } from "./types/Pokemon";
 import FilterType from "./components/FilterType";
+import GridView from "./components/GridView";
 
 type Props = { layout: ElementType };
 
 const PokemonsTable: React.FC<Props> = ({ layout: Layout }) => {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
-  const [gens, setGens] = useState<any>(generations[0]);
-  const [selectedTypes, setSelectedTypes] = useState("");
+  const [gens, setGens] = useState<Generation>(generations[0]);
+  const [selectedTypes, setSelectedTypes] = useState<string>("all");
   const [isPending, setIsPending] = useState<boolean>(true);
 
-  const fetchData = async (gen: any) => {
+  const fetchData = async (gen: Generation) => {
     setIsPending(true);
 
     const jsonData = await getPokemon(gen.offset, gen.limit).then((res) =>
@@ -51,6 +51,7 @@ const PokemonsTable: React.FC<Props> = ({ layout: Layout }) => {
     });
 
     setPokemons(await p);
+    setSelectedTypes("all");
     setIsPending(false);
   };
 
@@ -58,12 +59,7 @@ const PokemonsTable: React.FC<Props> = ({ layout: Layout }) => {
     setGens(JSON.parse(e.target.value));
   };
 
-  const capitalize = (string: any) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
-
-  const handleSelectType = (e) => {
-    console.log(e);
+  const handleSelectType = (e: string) => {
     setSelectedTypes(e);
   };
 
@@ -129,68 +125,51 @@ const PokemonsTable: React.FC<Props> = ({ layout: Layout }) => {
                 {gens.region.toUpperCase()}
               </Typography>
             </Box>
-            <Grid
-              container
-              direction="row"
-              justifyContent="flex-start"
-              alignItems="center"
-              columnGap={2}
-              rowGap={3}
-              sx={{ justifySelf: "center" }}
-            >
-              {pokemons.map((p: Pokemon, i: number) => (
-                <Grid
-                  item
-                  key={i}
-                  sx={{
-                    bgcolor: "#FFCB05",
-                    border: "3px solid",
-                    borderColor: "#3466AF",
-                    borderRadius: 2,
-                    padding: 2,
-                    boxSizing: "border-box",
-                    boxShadow: "0px 0px 0px 0px",
-                    "&:hover": {
-                      boxShadow:
-                        " inset 0px 0px 10px 0px rgba(48, 106, 192, 1)",
-                    },
-                  }}
-                >
-                  {/* Detail */}
-                  <Stack
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="center"
-                    rowGap={1}
-                    height={160}
-                  >
-                    <Box
-                      component="img"
-                      src={p.sprite}
-                      alt="sprite"
-                      width={110}
+            {selectedTypes === "all" ? (
+              <Grid
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="center"
+                columnGap={2}
+                rowGap={3}
+                sx={{ justifySelf: "center" }}
+              >
+                {pokemons.map((p: Pokemon) => (
+                  <GridView
+                    key={p.id}
+                    pokemonName={p.name}
+                    pokemonSprite={p.sprite}
+                    pokemonType={p.types}
+                  />
+                ))}
+              </Grid>
+            ) : (
+              <Grid
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="center"
+                columnGap={2}
+                rowGap={3}
+                sx={{ justifySelf: "center" }}
+              >
+                {pokemons
+                  .filter((p) => {
+                    return p.types.find((t) => {
+                      return t.type.name === selectedTypes;
+                    });
+                  })
+                  .map((p: Pokemon) => (
+                    <GridView
+                      key={p.id}
+                      pokemonName={p.name}
+                      pokemonSprite={p.sprite}
+                      pokemonType={p.types}
                     />
-                    <Box>{capitalize(p.name)}</Box>
-                    <Stack direction="row" columnGap={2}>
-                      {p.types.map((t: PokemonType, i: number) => (
-                        <Tooltip
-                          arrow
-                          title={capitalize(t.type.name)}
-                          placement="top"
-                          key={i}
-                        >
-                          <Box
-                            component="img"
-                            src={`./src/assets/icons/types/${t.type.name}.png`}
-                            width={25}
-                          />
-                        </Tooltip>
-                      ))}
-                    </Stack>
-                  </Stack>
-                </Grid>
-              ))}
-            </Grid>
+                  ))}
+              </Grid>
+            )}
           </Container>
         )}
       </Layout>
