@@ -37,6 +37,7 @@ function FilterType({ selectedType }) {
                   />
                 }
               />
+              {console.log(`./src/assets/icons/types/${type}.png`)}
             </Tooltip>
           </Box>
         ))}
