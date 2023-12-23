@@ -1,12 +1,4 @@
-export interface Generation {
-  id: number;
-  region: string;
-  name: string;
-  offset: number;
-  limit: number;
-}
-
-export const generations: Generation[] = [
+export const generations = [
   {
     id: 1,
     region: "kanto",
