@@ -11,7 +11,7 @@ import {
   Typography,
   CircularProgress,
 } from "@mui/material";
-import { getPokemon, generations, Generation } from "./fetcher";
+import { getPokemons, generations, Generation } from "./fetcher";
 import { Pokemon, PokemonData } from "./types/Pokemon";
 import FilterType from "./components/FilterType";
 import GridView from "./components/GridView";
@@ -27,7 +27,7 @@ const PokemonsTable: React.FC<Props> = ({ layout: Layout }) => {
   const fetchData = async (gen: Generation) => {
     setIsPending(true);
 
-    const jsonData = await getPokemon(gen.offset, gen.limit).then((res) =>
+    const jsonData = await getPokemons(gen.offset, gen.limit).then((res) =>
       res.json()
     );
 
@@ -81,7 +81,7 @@ const PokemonsTable: React.FC<Props> = ({ layout: Layout }) => {
             marginTop={20}
           >
             <CircularProgress />
-            ...loading{" "}
+            ...loading
           </Box>
         ) : (
           <Container maxWidth="xl">
@@ -125,6 +125,7 @@ const PokemonsTable: React.FC<Props> = ({ layout: Layout }) => {
                 {gens.region.toUpperCase()}
               </Typography>
             </Box>
+
             {selectedTypes === "all" ? (
               <Grid
                 container
@@ -141,6 +142,7 @@ const PokemonsTable: React.FC<Props> = ({ layout: Layout }) => {
                     pokemonName={p.name}
                     pokemonSprite={p.sprite}
                     pokemonType={p.types}
+                    onClick={`/p/${p.id}`}
                   />
                 ))}
               </Grid>
@@ -166,6 +168,7 @@ const PokemonsTable: React.FC<Props> = ({ layout: Layout }) => {
                       pokemonName={p.name}
                       pokemonSprite={p.sprite}
                       pokemonType={p.types}
+                      onClick={`/p/${p.id}`}
                     />
                   ))}
               </Grid>
