@@ -2,7 +2,7 @@ import * as React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./Login";
 import PokemonsTable from "./PokemonsTable";
-import MainLayout from "./components/MainLayout";
+import MainLayout from "./layouts/MainLayout";
 import SinglePage from "./SinglePage";
 
 function App() {
