@@ -4,12 +4,13 @@ import Login from "./Login";
 import PokemonsTable from "./PokemonsTable";
 import MainLayout from "./layouts/MainLayout";
 import SinglePage from "./SinglePage";
+import TypeLayout from "./layouts/TypeLayout";
 
 function App() {
   return (
     <Routes>
       <Route path="/p" element={<PokemonsTable layout={MainLayout} />} />
-      <Route path="/p/:id" element={<SinglePage />} />
+      <Route path="/p/:id" element={<SinglePage layout={TypeLayout} />} />
       <Route path="/" element={<Login />} />
     </Routes>
   );
