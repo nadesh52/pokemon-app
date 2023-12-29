@@ -1,4 +1,4 @@
-import { Box, Stack, Radio, Tooltip } from "@mui/material";
+import { Box, Radio, Tooltip, Grid } from "@mui/material";
 import React, { useState } from "react";
 import { typePokemon } from "../types/Pokemon";
 
@@ -12,7 +12,12 @@ function FilterType({ selectedType }) {
 
   return (
     <div>
-      <Stack direction="row" justifyContent="center" alignItems="center">
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+      >
         {typePokemon.map((type, i) => (
           <Box key={i}>
             <Tooltip title={type.name} placement="top" disableInteractive>
@@ -40,7 +45,7 @@ function FilterType({ selectedType }) {
             </Tooltip>
           </Box>
         ))}
-      </Stack>
+      </Grid>
     </div>
   );
 }

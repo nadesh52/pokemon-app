@@ -207,542 +207,552 @@ const SinglePage: React.FC<Props> = ({ layout: Layout }) => {
 
   return (
     <Layout>
-      <Container sx={{ padding: 0 }}>
-        {isPending ? (
-          <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            textAlign="center"
-            rowGap={4}
-            marginTop={20}
-          >
-            <CircularProgress />
-            ...loading
-          </Box>
-        ) : (
+      {isPending ? (
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          marginTop={20}
+        >
+          <CircularProgress />
+        </Grid>
+      ) : (
+        <Grid
+          className="sus"
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          rowGap={2}
+        >
           <Grid
             container
-            direction="column"
+            direction="row"
             justifyContent="center"
             alignItems="center"
-            rowGap={3}
+            width="920px"
+            height={120}
+            columnGap="20px"
+            sx={{ bgcolor: typeColor.dark, borderRadius: "30px" }}
           >
-            <Grid
-              container
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-              width={800}
-              height={120}
-              columnGap={2}
-              sx={{ bgcolor: typeColor.dark, borderRadius: 7 }}
-            >
-              {pokemon.id > firstIdx && (
-                <Link
-                  to={`/p/${prevPokemon?.id}`}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-around"
-                    alignItems="center"
-                    width={380}
-                    height={100}
-                    sx={{
-                      bgcolor: typeColor.normal,
-                      borderRadius: 5,
-                      "&:hover": { bgcolor: typeColor.light },
-                    }}
-                  >
-                    <Box>
-                      <ArrowBackIosIcon />
-                    </Box>
-                    <Box>#{prevPokemon?.id.toString().padStart(4, "0")}</Box>
-                    <Box>{capitalize(prevPokemon?.name)}</Box>
-                    <Box>
-                      <Box
-                        component="img"
-                        src={prevPokemon?.sprites.front_default}
-                        alt="prev"
-                        width={100}
-                      />
-                    </Box>
-                  </Grid>
-                </Link>
-              )}
-
-              {pokemon.id < lastIdx && (
-                <Link
-                  to={`/p/${nextPokemon?.id}`}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-around"
-                    alignItems="center"
-                    width={380}
-                    height={100}
-                    sx={{
-                      bgcolor: typeColor.normal,
-                      borderRadius: 5,
-                      "&:hover": { bgcolor: typeColor.light },
-                    }}
-                  >
-                    <Box>
-                      <Box
-                        component="img"
-                        src={nextPokemon?.sprites.front_default}
-                        alt="next"
-                        width={100}
-                      />
-                    </Box>
-                    <Box>{capitalize(nextPokemon?.name)}</Box>
-                    <Box>#{nextPokemon?.id.toString().padStart(4, "0")}</Box>
-                    <Box>
-                      <ArrowForwardIosIcon />
-                    </Box>
-                  </Grid>
-                </Link>
-              )}
-            </Grid>
-
-            <Grid
-              container
-              direction="row"
-              justifyContent="center"
-              // alignItems="center"
-              columnGap={3}
-              rowGap={3}
-            >
-              {/* Bio panel */}
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                rowGap="2px"
-                sx={{
-                  padding: "4px",
-                  width: 300,
-                  bgcolor: typeColor.dark,
-                  borderRadius: 3,
-                }}
+            {pokemon.id > firstIdx && (
+              <Link
+                to={`/p/${prevPokemon?.id}`}
+                style={{ textDecoration: "none", color: "inherit" }}
               >
-                {/* Name and Image */}
-                <Grid
-                  container
-                  direction="column"
-                  alignItems="center"
-                  height={355}
-                  rowGap={1}
-                  sx={{ bgcolor: typeColor.normal, borderRadius: 3 }}
-                >
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="center"
-                    columnGap={1}
-                    height={50}
-                    marginTop={1}
-                  >
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="space-evenly"
-                      alignItems="flex-end"
-                      width="65%"
-                      sx={{ bgcolor: "whitesmoke", borderRadius: 2 }}
-                    >
-                      <Stack direction="column">
-                        <Box>
-                          <Typography fontWeight="bold" fontSize={18}>
-                            {capitalize(pokemon.name)}
-                          </Typography>
-                        </Box>
-                        <Box>
-                          <Typography fontSize={11} color="darkgray">
-                            {pokemon.genera}
-                          </Typography>
-                        </Box>
-                      </Stack>
-                      <Stack direction="column">
-                        <Box>
-                          <Typography fontWeight="bold" fontSize={13}>
-                            {pokemon.japanName}
-                          </Typography>
-                        </Box>
-                        <Box>
-                          <Typography fontStyle="italic" fontSize={13}>
-                            {pokemon.romanjiName}
-                          </Typography>
-                        </Box>
-                      </Stack>
-                    </Grid>
-                    <Grid
-                      item
-                      container
-                      justifyContent="center"
-                      alignItems="center"
-                      width="25%"
-                      sx={{ bgcolor: "whitesmoke", borderRadius: 2 }}
-                    >
-                      <Box>
-                        <Typography variant="h6" fontWeight="bold">
-                          #{pokemon.id.toString().padStart(4, "0")}
-                        </Typography>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                  <Stack
-                    direction="row"
-                    justifyContent="space-evenly"
-                    columnGap={2}
-                    width={280}
-                    height={280}
-                    sx={{ bgcolor: "whitesmoke", borderRadius: 3 }}
-                  >
-                    <Grid item>
-                      <Box
-                        component="img"
-                        src={`${pokemon.sprites}`}
-                        alt="Pokemon-img"
-                        width={270}
-                      />
-                    </Grid>
-                  </Stack>
-                </Grid>
-
-                {/* Type */}
-                <Grid
-                  container
-                  direction="column"
-                  justifyContent="flex-start"
-                  alignItems="center"
-                  height={60}
-                  sx={{ bgcolor: typeColor.normal, borderRadius: 3 }}
-                >
-                  <Box sx={{ marginTop: 0.5, marginBottom: 0.5 }}>Type</Box>
-                  <Stack
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                    columnGap={1}
-                    width={300}
-                    height={30}
-                    sx={{ bgcolor: "whitesmoke", borderRadius: 3 }}
-                  >
-                    {pokemon.types.map((t: any, i: number) => (
-                      <Box
-                        key={i}
-                        sx={{
-                          padding: 0.2,
-                          bgcolor: getTypeColor(t.type.name),
-                          borderRadius: 1,
-                        }}
-                      >
-                        {capitalize(t.type.name)}
-                      </Box>
-                    ))}
-                  </Stack>
-                </Grid>
-
-                {/* Abilities */}
-                <Grid
-                  container
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  rowGap={0.5}
-                  height={90}
-                  sx={{ bgcolor: typeColor.normal, borderRadius: 3 }}
-                >
-                  <Box>Abilities</Box>
-                  <Stack
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                    width={295}
-                    height={55}
-                    columnGap="30px"
-                    textAlign="center"
-                    sx={{ bgcolor: "whitesmoke", borderRadius: 3 }}
-                  >
-                    {pokemon.abilities.map((a: any, i: number) => (
-                      <Stack direction="column" key={i}>
-                        <Box>{capitalize(a.ability.name)}</Box>
-                        {a.is_hidden === true && (
-                          <Box>
-                            <Typography fontSize={10} color="gray">
-                              Hidden Ability
-                            </Typography>
-                          </Box>
-                        )}
-                      </Stack>
-                    ))}
-                  </Stack>
-                </Grid>
-
-                {/* Breeding */}
-                <Grid
-                  container
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  width={300}
-                  height={75}
-                  sx={{ bgcolor: typeColor.normal, borderRadius: 3 }}
-                >
-                  Breeding
-                  <Stack
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                    columnGap={0.5}
-                    width={280}
-                    height={50}
-                    textAlign="center"
-                  >
-                    <Box width="50%">
-                      <Stack direction="column">
-                        <Box>Egg Groups</Box>
-                        <Grid
-                          container
-                          direction="column"
-                          justifyContent="center"
-                          alignItems="center"
-                          height={25}
-                          sx={{ bgcolor: "whitesmoke", borderRadius: 2 }}
-                        >
-                          <Stack direction="row" columnGap={2}>
-                            {pokemon.egg_groups.map((e, i) => (
-                              <Box key={i}>
-                                <Typography variant="caption">
-                                  {capitalize(e.name)}
-                                </Typography>
-                              </Box>
-                            ))}
-                          </Stack>
-                        </Grid>
-                      </Stack>
-                    </Box>
-                    <Box width="50%">
-                      <Stack direction="column">
-                        <Box>Hatch time</Box>
-                        <Grid
-                          container
-                          direction="column"
-                          justifyContent="center"
-                          alignItems="center"
-                          height={25}
-                          sx={{ bgcolor: "whitesmoke", borderRadius: 2 }}
-                        >
-                          <Typography variant="caption">
-                            {pokemon.hatch_counter} cycles
-                          </Typography>
-                        </Grid>
-                      </Stack>
-                    </Box>
-                  </Stack>
-                </Grid>
-
-                {/* Height and Weight */}
                 <Grid
                   container
                   direction="row"
-                  justifyContent="space-between"
+                  justifyContent="space-around"
                   alignItems="center"
-                >
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                    height={50}
-                    width="49%"
-                    sx={{ bgcolor: typeColor.normal, borderRadius: 3 }}
-                  >
-                    <Box>
-                      <Stack direction="column">
-                        <Box textAlign="center">Height</Box>
-                        <Stack
-                          direction="row"
-                          justifyContent="space-around"
-                          alignItems="center"
-                          width={140}
-                          height={25}
-                          sx={{ bgcolor: "whitesmoke", borderRadius: 2 }}
-                        >
-                          <Typography variant="caption">
-                            <Box>{getHeight(pokemon.height).feet}</Box>
-                          </Typography>
-                          <Typography variant="caption">
-                            <Box>{getHeight(pokemon.height).meter} m</Box>
-                          </Typography>
-                        </Stack>
-                      </Stack>
-                    </Box>
-                  </Grid>
-
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                    height={50}
-                    width="49%"
-                    sx={{ bgcolor: typeColor.normal, borderRadius: 3 }}
-                  >
-                    <Box>
-                      <Stack direction="column">
-                        <Box textAlign="center">Weight</Box>
-                        <Stack
-                          direction="row"
-                          justifyContent="space-around"
-                          alignItems="center"
-                          width={140}
-                          height={25}
-                          sx={{ bgcolor: "whitesmoke", borderRadius: 2 }}
-                        >
-                          <Typography variant="caption">
-                            <Box>{getWeight(pokemon.weight).lbs} lbs.</Box>
-                          </Typography>
-                          <Typography variant="caption">
-                            <Box>{getWeight(pokemon.weight).kg} kg</Box>
-                          </Typography>
-                        </Stack>
-                      </Stack>
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Box>
-
-              {/* stat panel */}
-              <Box
-                display="flex"
-                flexDirection="column"
-                rowGap="2px"
-                width={400}
-                sx={{
-                  padding: "4px",
-                  bgcolor: typeColor.dark,
-                  borderRadius: 3,
-                }}
-              >
-                <Box
-                  textAlign="center"
+                  width={440}
+                  height={100}
                   sx={{
                     bgcolor: typeColor.normal,
-                    borderRadius: 3,
+                    borderRadius: "20px",
+                    "&:hover": { bgcolor: typeColor.light },
                   }}
                 >
-                  <Typography variant="h5">Evolution</Typography>
+                  <Box>
+                    <ArrowBackIosIcon />
+                  </Box>
+                  <Box>#{prevPokemon?.id.toString().padStart(4, "0")}</Box>
+                  <Box>{capitalize(prevPokemon?.name)}</Box>
+                  <Box>
+                    <Box
+                      component="img"
+                      src={prevPokemon?.sprites.front_default}
+                      alt="prev"
+                      width={100}
+                    />
+                  </Box>
+                </Grid>
+              </Link>
+            )}
+
+            {pokemon.id < lastIdx && (
+              <Link
+                to={`/p/${nextPokemon?.id}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-around"
+                  alignItems="center"
+                  width={440}
+                  height={100}
+                  sx={{
+                    bgcolor: typeColor.normal,
+                    borderRadius: "20px",
+                    "&:hover": { bgcolor: typeColor.light },
+                  }}
+                >
+                  <Box>
+                    <Box
+                      component="img"
+                      src={nextPokemon?.sprites.front_default}
+                      alt="next"
+                      width={100}
+                    />
+                  </Box>
+                  <Box>{capitalize(nextPokemon?.name)}</Box>
+                  <Box>#{nextPokemon?.id.toString().padStart(4, "0")}</Box>
+                  <Box>
+                    <ArrowForwardIosIcon />
+                  </Box>
+                </Grid>
+              </Link>
+            )}
+          </Grid>
+
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            columnGap="20px"
+            rowGap="20px"
+          >
+            {/* Bio panel */}
+            <Grid
+              container
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              width={450}
+              rowGap="5px"
+              sx={{
+                padding: "10px",
+                bgcolor: typeColor.dark,
+                borderRadius: "30px",
+              }}
+            >
+              {/* Name and Image */}
+              <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                height={350}
+                sx={{ bgcolor: typeColor.normal, borderRadius: "20px" }}
+              >
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  columnGap="10px"
+                  height="80px"
+                >
                   <Grid
                     container
                     direction="row"
                     justifyContent="space-around"
-                    height={180}
+                    alignItems="center"
+                    width="295px"
+                    height="60px"
+                    sx={{ bgcolor: "whitesmoke", borderRadius: "15px" }}
                   >
-                    {evoChain.map((e, i: number) => (
-                      <Box key={i} width={100}>
+                    <Grid
+                      container
+                      direction="column"
+                      justifyContent="center"
+                      alignItems="center"
+                      width="145px"
+                    >
+                      <Box sx={{ fontSize: 30, fontWeight: "bold" }}>
+                        {capitalize(pokemon.name)}
+                      </Box>
+                      <Box sx={{ fontSize: 14, color: "gray" }}>
+                        {pokemon.genera}
+                      </Box>
+                    </Grid>
+                    <Grid
+                      container
+                      direction="column"
+                      justifyContent="center"
+                      alignItems="center"
+                      width="145px"
+                    >
+                      <Box sx={{ fontSize: 14, fontWeight: "bold" }}>
+                        {pokemon.japanName}
+                      </Box>
+                      <Box sx={{ fontSize: 14, fontStyle: "italic" }}>
+                        {pokemon.romanjiName}
+                      </Box>
+                    </Grid>
+                  </Grid>
+
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    width="95px"
+                    height="60px"
+                    sx={{ bgcolor: "whitesmoke", borderRadius: "15px" }}
+                  >
+                    <Box sx={{ fontSize: 30 }}>
+                      #{pokemon.id.toString().padStart(4, "0")}
+                    </Box>
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="center"
+                  width={400}
+                  height={250}
+                  sx={{ bgcolor: "whitesmoke", borderRadius: "15px" }}
+                >
+                  <Box
+                    component="img"
+                    src={`${pokemon.sprites}`}
+                    alt="Pokemon-img"
+                    width={250}
+                  />
+                </Grid>
+              </Grid>
+
+              {/* Type */}
+              <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                height={80}
+                sx={{ bgcolor: typeColor.normal, borderRadius: "20px" }}
+              >
+                <Box>Type</Box>
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  columnGap="30px"
+                  width={400}
+                  height={45}
+                  sx={{ bgcolor: "whitesmoke", borderRadius: "15px" }}
+                >
+                  {pokemon.types.map((t: any, i: number) => (
+                    <Box
+                      key={i}
+                      sx={{
+                        padding: "4px",
+                        bgcolor: getTypeColor(t.type.name),
+                        borderRadius: 1,
+                        fontSize: 16,
+                      }}
+                    >
+                      {capitalize(t.type.name)}
+                    </Box>
+                  ))}
+                </Stack>
+              </Grid>
+
+              {/* Abilities */}
+              <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                height={85}
+                sx={{ bgcolor: typeColor.normal, borderRadius: "20px" }}
+              >
+                <Box>Abilities</Box>
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  width={400}
+                  height={50}
+                  columnGap="50px"
+                  sx={{ bgcolor: "whitesmoke", borderRadius: "15px" }}
+                >
+                  {pokemon.abilities.map((a: any, i: number) => (
+                    <Stack direction="column" key={i}>
+                      <Box sx={{ fontSize: 16 }}>
+                        {capitalize(a.ability.name)}
+                      </Box>
+                      {a.is_hidden === true && (
+                        <Box sx={{ fontSize: 10, color: "gray" }}>
+                          Hidden Ability
+                        </Box>
+                      )}
+                    </Stack>
+                  ))}
+                </Stack>
+              </Grid>
+
+              {/* Breeding */}
+              <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                width={430}
+                height={75}
+                sx={{ bgcolor: typeColor.normal, borderRadius: "20px" }}
+              >
+                <Box>Breeding</Box>
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-around"
+                  alignItems="center"
+                  textAlign="center"
+                >
+                  <Stack direction="column">
+                    <Box>Egg Groups</Box>
+                    <Grid
+                      container
+                      direction="column"
+                      justifyContent="center"
+                      alignItems="center"
+                      width={180}
+                      height={30}
+                      sx={{ bgcolor: "whitesmoke", borderRadius: "15px" }}
+                    >
+                      <Stack direction="row" columnGap={2}>
+                        {pokemon.egg_groups.map((e, i) => (
+                          <Box key={i} sx={{ fontSize: 14 }}>
+                            {capitalize(e.name)}
+                          </Box>
+                        ))}
+                      </Stack>
+                    </Grid>
+                  </Stack>
+
+                  <Stack direction="column">
+                    <Box>Hatch time</Box>
+                    <Grid
+                      container
+                      direction="column"
+                      justifyContent="center"
+                      alignItems="center"
+                      width={180}
+                      height={30}
+                      sx={{ bgcolor: "whitesmoke", borderRadius: "15px" }}
+                    >
+                      <Box sx={{ fontSize: 14 }}>
+                        {pokemon.hatch_counter} cycles
+                      </Box>
+                    </Grid>
+                  </Stack>
+                </Grid>
+              </Grid>
+
+              {/* Height and Weight */}
+              <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                columnGap="10px"
+              >
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  height="60px"
+                  width="210px"
+                  sx={{ bgcolor: typeColor.normal, borderRadius: "20px" }}
+                >
+                  <Box>
+                    <Stack direction="column">
+                      <Box textAlign="center">Height</Box>
+                      <Stack
+                        direction="row"
+                        justifyContent="space-around"
+                        alignItems="center"
+                        width="180px"
+                        height="30px"
+                        sx={{ bgcolor: "whitesmoke", borderRadius: "15px" }}
+                      >
+                        <Box sx={{ fontSize: 14 }}>
+                          {getHeight(pokemon.height).feet}
+                        </Box>
+                        <Box sx={{ fontSize: 14 }}>
+                          {getHeight(pokemon.height).meter} m
+                        </Box>
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </Grid>
+
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  height="60px"
+                  width="210px"
+                  sx={{ bgcolor: typeColor.normal, borderRadius: "20px" }}
+                >
+                  <Box>
+                    <Stack direction="column">
+                      <Box textAlign="center">Weight</Box>
+                      <Stack
+                        direction="row"
+                        justifyContent="space-around"
+                        alignItems="center"
+                        width="180px"
+                        height="30px"
+                        sx={{ bgcolor: "whitesmoke", borderRadius: "15px" }}
+                      >
+                        <Box sx={{ fontSize: 14 }}>
+                          {getWeight(pokemon.weight).lbs} lbs.
+                        </Box>
+                        <Box sx={{ fontSize: 14 }}>
+                          {getWeight(pokemon.weight).kg} kg
+                        </Box>
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Grid>
+
+            {/* stat panel */}
+            <Grid
+              container
+              direction="column"
+              justifyContent="flex-start"
+              alignItems="center"
+              rowGap="5px"
+              width={450}
+              height={695}
+              sx={{
+                padding: "10px",
+                bgcolor: typeColor.dark,
+                borderRadius: "30px",
+              }}
+            >
+              <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                height={220}
+                sx={{
+                  bgcolor: typeColor.normal,
+                  borderRadius: "20px",
+                }}
+              >
+                <Box sx={{ fontSize: 30 }}>Evolution</Box>
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-evenly"
+                  alignItems="center"
+                  height={180}
+                >
+                  {evoChain.map((e, i: number) => (
+                    <Grid
+                      key={i}
+                      container
+                      direction="column"
+                      justifyContent="center"
+                      alignItems="center"
+                      width={120}
+                      rowGap="5px"
+                    >
+                      <Grid
+                        container
+                        justifyContent="center"
+                        alignItems="center"
+                        width={120}
+                        height={120}
+                        sx={{
+                          bgcolor: typeColor.light,
+                          border: "2px solid",
+                          borderColor: typeColor.dark,
+                          borderRadius: 15,
+                        }}
+                      >
+                        <Link to={`/p/${e.id}`}>
+                          <Box
+                            component="img"
+                            src={
+                              e.sprites.other["official-artwork"][
+                                "front_default"
+                              ]
+                            }
+                            alt="evo-img"
+                            width={90}
+                          />
+                        </Link>
+                      </Grid>
+                      <Box sx={{ fontSize: 14 }}>{capitalize(e.name)}</Box>
+                      <Grid
+                        container
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        width={120}
+                        height={30}
+                        sx={{ bgcolor: "whitesmoke", borderRadius: "15px" }}
+                      >
                         <Grid
                           container
-                          direction="column"
+                          direction="row"
+                          justifyContent="space-evenly"
                           alignItems="center"
-                          rowGap={2}
                         >
-                          <Box
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            width={100}
-                            height={100}
-                            sx={{
-                              bgcolor: "whitesmoke",
-                              border: "2px solid",
-                              borderColor: typeColor.dark,
-                              borderRadius: 15,
-                            }}
-                          >
-                            <Link to={`/p/${e.id}`}>
-                              <Box
-                                component="img"
-                                src={
-                                  e.sprites.other["official-artwork"][
-                                    "front_default"
-                                  ]
-                                }
-                                alt="evo-img"
-                                width={90}
-                              />
-                            </Link>
-                          </Box>
-                          <Box
-                            width={100}
-                            height={50}
-                            sx={{ bgcolor: typeColor.light, borderRadius: 2 }}
-                          >
-                            <Box>
-                              <Typography fontSize={15}>
-                                {capitalize(e.name)}
-                              </Typography>
+                          {e.types.map((t, i: number) => (
+                            <Box
+                              key={i}
+                              sx={{
+                                padding: "4px",
+                                bgcolor: getTypeColor(t.type.name),
+                                borderRadius: "15px",
+                              }}
+                            >
+                              <Box sx={{ fontSize: 14 }}>
+                                {capitalize(t.type.name)}
+                              </Box>
                             </Box>
-                            <Box>
-                              <Stack
-                                direction="row"
-                                justifyContent="center"
-                                alignItems="center"
-                                columnGap="4px"
-                              >
-                                {e.types.map((t, i: number) => (
-                                  <Box
-                                    key={i}
-                                    sx={{
-                                      padding: "2px",
-                                      bgcolor: getTypeColor(t.type.name),
-                                      borderRadius: 1,
-                                    }}
-                                  >
-                                    <Typography fontSize={12}>
-                                      {capitalize(t.type.name)}
-                                    </Typography>
-                                  </Box>
-                                ))}
-                              </Stack>
-                            </Box>
-                          </Box>
+                          ))}
                         </Grid>
-                      </Box>
-                    ))}
-                  </Grid>
-                </Box>
+                      </Grid>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Grid>
 
-                {/* stat table */}
-                <Box
-                  display="flex"
-                  flexDirection="column"
+              {/* stat table */}
+              <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                height={270}
+                textAlign="center"
+                sx={{
+                  bgcolor: typeColor.normal,
+                  borderRadius: "20px",
+                }}
+              >
+                <Box sx={{ fontSize: 30 }}>Status</Box>
+                <Grid
+                  container
+                  direction="column"
+                  justifyContent="center"
                   alignItems="center"
-                  height={270}
-                  textAlign="center"
-                  sx={{
-                    bgcolor: typeColor.normal,
-                    borderRadius: 3,
-                  }}
+                  width={400}
+                  height={220}
+                  sx={{ bgcolor: "whitesmoke", borderRadius: "15px" }}
                 >
-                  <Typography variant="h5">Status</Typography>
-                  <Box
-                    height={220}
-                    width={380}
-                    sx={{ bgcolor: "whitesmoke", borderRadius: 3 }}
-                  ></Box>
-                </Box>
-              </Box>
+                  stat here
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
-        )}
-      </Container>
+        </Grid>
+      )}
     </Layout>
   );
 };
