@@ -9,9 +9,8 @@ interface LayoutProps {
 
 const SinglePageLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <Grid container rowGap={1}>
+    <Grid container rowGap="20px">
       <Grid
-        className="laysus"
         container
         direction="column"
         justifyContent="center"
@@ -24,6 +23,7 @@ const SinglePageLayout: React.FC<LayoutProps> = ({ children }) => {
           alignItems="center"
           width={920}
           height={70}
+          xs
           sx={{ bgcolor: "#FFCB05", borderRadius: 10 }}
         >
           <Grid
@@ -31,7 +31,7 @@ const SinglePageLayout: React.FC<LayoutProps> = ({ children }) => {
             direction="row"
             justifyContent="center"
             alignItems="center"
-            columnGap={7}
+            columnGap="50px"
           >
             <Grid
               item
