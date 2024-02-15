@@ -2,14 +2,16 @@ import React from "react";
 import "./LandingPage.css";
 import logo from "../assets/logos/pokeball_logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopyright } from "@fortawesome/free-regular-svg-icons";
 import {
   faGithub,
   faLinkedin,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import { faCopyright } from "@fortawesome/free-regular-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
   return (
     <section className="__landing">
       <nav className="__nav --row">
@@ -21,12 +23,14 @@ const LandingPage = () => {
             placeholder="search by number"
           />
         </div>
-        <span className="__menu">menu1</span>
+        <span className="__menu" onClick={() => navigate("/p")}>
+          table
+        </span>
         <span className="__menu">menu2</span>
         <span className="__menu">menu3</span>
       </nav>
-      <header>
-        <div className="__container">
+      <header className="__header-container">
+        <div className="__container --margin-btm">
           <div className="--inner-container">
             <span className="__title">Ho-Oh</span>
             <div id="__type-container">
@@ -54,16 +58,16 @@ const LandingPage = () => {
           </div>
         </div>
       </header>
-      <main>
-        <div className="--dark"></div>
+      <main className="__main-container">
+        {/* <div className="--dark"></div> */}
         <div className="__container">
           <div className="--inner-container">
             <div className="--inner">
-              <img src="https://www.placehold.co/400" />
+              <img src="https://www.placehold.co/350/f08030/000000" />
             </div>
           </div>
-          <div className="--inner-container">
-            <h4>
+          <div className="__body-right-box">
+            <span className="__detail">
               Ho-Oh is an avian Pokémon resembling a phoenix and a peacock. Its
               feathers are predominantly gold and red, with yellow
               tail-feathers, a white underside, and green feathers at the tip of
@@ -72,7 +76,8 @@ const LandingPage = () => {
               its head. Ho-Oh's wings are prismatic, causing it to trail a
               rainbow behind it. It has darkly colored feet and legs with four
               toes and long talons.
-            </h4>
+            </span>
+            <div className="__button --align-right">find next</div>
           </div>
         </div>
       </main>
@@ -83,13 +88,13 @@ const LandingPage = () => {
               <FontAwesomeIcon icon={faCopyright} />
               copyright
             </div>
-            <div>
+            <div className="__menu">
               <FontAwesomeIcon icon={faTwitter} size="2xl" />
             </div>
-            <div>
+            <div className="__menu">
               <FontAwesomeIcon icon={faLinkedin} size="2xl" />
             </div>
-            <div>
+            <div className="__menu">
               <FontAwesomeIcon icon={faGithub} size="2xl" />
             </div>
           </div>
