@@ -4,21 +4,16 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from "@mui/material";
-import "./GenSelection.css";
-import { generations, Generation } from "../../utils/fetcher";
+import { generations, Generation } from "../utils/fetcher";
 
 const GenSelection = ({ selectedGen }: any) => {
-  const handleChangeGen = (e: SelectChangeEvent) => {
-    selectedGen(e.target.value);
-  };
-
   return (
     <FormControl>
       <Select
         className="__select"
         size="small"
         defaultValue=""
-        onChange={(e) => handleChangeGen(e)}
+        onChange={(e: SelectChangeEvent) => selectedGen(e.target.value)}
       >
         {generations.map((gen: Generation, i: number) => (
           <MenuItem

@@ -5,7 +5,6 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    // "suppressImplicitAnyIndexErrors": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -13,14 +12,24 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    //
+    "plugins": [{ "name": "next" }],
+    "esModuleInterop": true,
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src", "./dist/types/**/*.ts", "./next-env.d.ts", "landingpage", "components", "types", "utils", "SinglePage.tsx", "vite-env.d.ts"],
+  "exclude": ["./node_modules"]
 }

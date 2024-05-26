@@ -1,15 +1,12 @@
-import { FC, ElementType, useState, useEffect } from "react";
-import { Container, CircularProgress } from "@mui/material";
-import { getPokemons, generations, Generation } from "../utils/fetcher";
-import { Pokemon, PokemonData } from "../types/pokemon";
-import FilterType from "../components/filtertype/FilterType";
-import Card from "../components/card/Card";
-import GenSelection from "../components/genselection/GenSelection";
-import "./PokemonsTable.css";
+"use client";
+import { useState, useEffect } from "react";
+import { Pokemon, PokemonData } from "../../types/Pokemon";
+import { Generation, generations, getPokemons } from "../../utils/fetcher";
+import GenSelection from "../../components/GenSelection";
+import FilterType from "../../components/FilterType";
+import Card from "../../components/Card";
 
-type Props = { layout: ElementType };
-
-const PokemonsTable: FC<Props> = ({ layout: Layout }) => {
+const PokemonsTable = () => {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string>("all");
   const [isPending, setIsPending] = useState<boolean>(true);
@@ -46,30 +43,21 @@ const PokemonsTable: FC<Props> = ({ layout: Layout }) => {
     setIsPending(false);
   };
 
-  const handleChangeGen = (e: any) => {
-    setGens(JSON.parse(e));
-  };
-
-  const handleSelectType = (e: string) => {
-    setSelectedTypes(e);
-  };
-
   useEffect(() => {
     fetchData(gens);
   }, [gens]);
 
   return (
-    <Layout>
+    <>
       {isPending ? (
         <div className="__table--loading">
-          <CircularProgress />
-          ...loading
+          <p>...loading</p>
         </div>
       ) : (
-        <Container maxWidth="md">
+        <section>
           <div className="__table__input">
-            <GenSelection selectedGen={handleChangeGen} />
-            <FilterType selectedType={handleSelectType} />
+            <GenSelection selectedGen={(e: any) => setGens(JSON.parse(e))} />
+            <FilterType selectedType={(e: any) => setSelectedTypes(e)} />
             <span className="__text--gen">{gens.region.toUpperCase()}</span>
           </div>
 
@@ -94,9 +82,9 @@ const PokemonsTable: FC<Props> = ({ layout: Layout }) => {
               </>
             )}
           </div>
-        </Container>
+        </section>
       )}
-    </Layout>
+    </>
   );
 };
 

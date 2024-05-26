@@ -1,21 +1,15 @@
+"use client";
 import { useEffect, useState } from "react";
-import "./LandingPage.css";
-import "./TypeColor.css";
-import logo from "../assets/logos/pokeball_logo.png";
+import logo from "@/public/assets/logos/pokeball_logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopyright } from "@fortawesome/free-regular-svg-icons";
 import {
   faArrowLeftLong,
   faArrowRightLong,
   faDiceThree,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  faGithub,
-  faLinkedin,
-  faTwitter,
-} from "@fortawesome/free-brands-svg-icons";
 import { getPokemon } from "../utils/fetcher";
-// import { useNavigate } from "react-router-dom";
+import { padNumber } from "../utils/padNumber";
+import Image from "next/image";
 
 type NavPoke = {
   id: number;
@@ -56,9 +50,11 @@ const lastIdx = 1025;
 const URL = "https://pokeapi.co/api/v2/pokemon/";
 const randomId = Math.floor(Math.random() * 1025).toString();
 
-const newNumber = (num: number) => {
-  return num.toString().padStart(4, "0");
-};
+const titleStr =
+  "While most Pokémon resemble animals and may behave like them,there are many that do not resemble animals at all, taking onother forms such as plants, inanimate objects, machines,human-like forms, or other more enigmatic and exoticappearances.";
+
+const titleStr2 =
+  "Pokémon inhabit an extremely diverse range of habitats,ranging from the driest deserts to the lushest jungles, thedeepest oceans to the highest mountains and everything else inbetween, even outer space and other dimensions.";
 
 const LandingPage = () => {
   const [pokeId, setPokeId] = useState(randomId);
@@ -68,7 +64,6 @@ const LandingPage = () => {
   const [prevPokemon, setPrevPokemon] = useState<NavPoke>(initNavPoke);
   const [nextPokemon, setNextPokemon] = useState<NavPoke>(initNavPoke);
   const [isPending, setIsPending] = useState(true);
-  // const navigate = useNavigate();
 
   const fetchData = async (pokeId: string) => {
     if (pokeId !== "") {
@@ -271,10 +266,6 @@ const LandingPage = () => {
     }
   };
 
-  const handleChange = (e: any) => {
-    setText(e.target.value as string);
-  };
-
   const onSubmit = (e: any) => {
     e.preventDefault();
     setPokeId(text);
@@ -291,16 +282,6 @@ const LandingPage = () => {
     setPokeId(e.toString());
   };
 
-  const onPrevPokeClick = (e: any) => {
-    e.preventDefault();
-    setPokeId(prevPokemon.id.toString());
-  };
-
-  const onNextPokeClick = (e: any) => {
-    e.preventDefault();
-    setPokeId(nextPokemon.id.toString());
-  };
-
   useEffect(() => {
     fetchData(pokeId);
   }, [pokeId]);
@@ -310,12 +291,18 @@ const LandingPage = () => {
       <nav className="__nav __nav-row --flex-row --center">
         <div className="__search-box --flex-row --center">
           <a href="/">
-            <img className="__logo" src={logo} />
+            <Image
+              className="__logo"
+              src={logo}
+              alt=""
+              height={40}
+              width={40}
+            />
           </a>
           <form className="--flex-row" onSubmit={onSubmit}>
             <input
               name="input"
-              onChange={handleChange}
+              onChange={(e: any) => setText(e.target.value)}
               value={text}
               className="__search"
               type="number"
@@ -333,7 +320,7 @@ const LandingPage = () => {
         </div>
         <div className="__nav-menu --flex-row">
           <a href="/p" className="__menu-link">
-            table
+            <span>table</span>
           </a>
           <span className="__menu-link">menu2</span>
           <span className="__menu-link">menu3</span>
@@ -349,7 +336,7 @@ const LandingPage = () => {
               <div className="__inner-container --flex-col">
                 <span className="__title">{pokemon.name}</span>
                 <div className="__type-container --flex-row">
-                  <div id="__number">#{newNumber(pokemon.id)}</div>
+                  <div id="__number">#{padNumber(pokemon.id)}</div>
                   {pokemon.types.map((t: any, i: number) => (
                     <div key={i} className="__type" id={t.type.name}>
                       {t.type.name}
@@ -407,19 +394,8 @@ const LandingPage = () => {
                 <img src="https://archives.bulbagarden.net/media/upload/thumb/a/a7/PSMD_poster.png/250px-PSMD_poster.png" />
               </div>
               <div className="__body-right-box --flex-col">
-                <span className="__sub-title">
-                  While most Pokémon resemble animals and may behave like them,
-                  there are many that do not resemble animals at all, taking on
-                  other forms such as plants, inanimate objects, machines,
-                  human-like forms, or other more enigmatic and exotic
-                  appearances.
-                </span>
-                <span className="__sub-title">
-                  Pokémon inhabit an extremely diverse range of habitats,
-                  ranging from the driest deserts to the lushest jungles, the
-                  deepest oceans to the highest mountains and everything else in
-                  between, even outer space and other dimensions.
-                </span>
+                <span className="__sub-title">{titleStr}</span>
+                <span className="__sub-title">{titleStr2}</span>
                 <a className="__button __menu-link" href="/p">
                   discover more
                 </a>
@@ -435,7 +411,7 @@ const LandingPage = () => {
             {pokemon.id > firstIdx && (
               <div
                 className="__main-nav --flex-row --center"
-                onClick={onPrevPokeClick}
+                onClick={() => setPokeId(prevPokemon.id.toString())}
               >
                 <FontAwesomeIcon icon={faArrowLeftLong} size="2xl" />
                 <img className="__nav-img" src={prevPokemon.sprites} />
@@ -445,7 +421,7 @@ const LandingPage = () => {
             {pokemon.id < lastIdx && (
               <div
                 className="__main-nav --flex-row --center"
-                onClick={onNextPokeClick}
+                onClick={() => setPokeId(nextPokemon.id.toString())}
               >
                 <img className="__nav-img" src={nextPokemon.sprites} />
                 <FontAwesomeIcon icon={faArrowRightLong} size="2xl" />
@@ -454,30 +430,6 @@ const LandingPage = () => {
           </div>
         </>
       )}
-
-      {/* end pre next nav */}
-
-      <footer>
-        <div className="__footer">
-          <div className="__footer-icon --flex-row --justify-center --center">
-            <div>
-              copyright
-              <FontAwesomeIcon icon={faCopyright} />
-            </div>
-            <div className="--flex-row --gap-20">
-              <div className="__menu-link">
-                <FontAwesomeIcon icon={faTwitter} size="2xl" />
-              </div>
-              <div className="__menu-link">
-                <FontAwesomeIcon icon={faLinkedin} size="2xl" />
-              </div>
-              <div className="__menu-link">
-                <FontAwesomeIcon icon={faGithub} size="2xl" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
     </section>
   );
 };
