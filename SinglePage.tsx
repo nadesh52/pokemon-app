@@ -62,15 +62,16 @@ const SinglePage: React.FC<Props> = ({ layout: Layout }) => {
   const fetchData = async (pokeId: string) => {
     setIsPending(true);
 
-    const jsonData = await getPokemon(pokeId).then((res) => res.json());
+    const res = await getPokemon(pokeId);
+    const jsonData = await res.json();
 
     const species = await fetch(jsonData.species.url);
     const speciesJson = await species.json();
 
     const getOtherName = (language: string): string => {
       const findingName = speciesJson.names
-        .filter((n) => n.language.name === language)
-        .map((na) => {
+        .filter((n: any) => n.language.name === language)
+        .map((na: any) => {
           return na.name;
         })
         .join("");
@@ -79,8 +80,8 @@ const SinglePage: React.FC<Props> = ({ layout: Layout }) => {
 
     const getGenera = (language: string): string => {
       const genera = speciesJson.genera
-        .filter((g) => g.language.name === language)
-        .map((ge) => {
+        .filter((g: any) => g.language.name === language)
+        .map((ge: any) => {
           return ge.genus;
         })
         .join("");
@@ -110,16 +111,18 @@ const SinglePage: React.FC<Props> = ({ layout: Layout }) => {
     setPokemon(mon);
 
     if (jsonData.id > firstIdx) {
-      const prevPokeJson = await fetch(`${URL}${jsonData.id - 1}`).then((res) =>
-        res.json()
-      );
+      const prevPokeJson = await (
+        await fetch(`${URL}${jsonData.id - 1}`)
+      ).json();
+
       setPrevPokemon(prevPokeJson);
     }
 
     if (jsonData.id < lastIdx) {
-      const nextPokeJson = await fetch(`${URL}${jsonData.id + 1}`).then((res) =>
-        res.json()
-      );
+      const nextPokeJson = await (
+        await fetch(`${URL}${jsonData.id + 1}`)
+      ).json();
+
       setNextPokemon(nextPokeJson);
     }
 
@@ -127,44 +130,46 @@ const SinglePage: React.FC<Props> = ({ layout: Layout }) => {
     const evoChainJson = await evoChain.json();
 
     if (evoChainJson.chain.evolves_to.length !== 0) {
-      evoChainJson.chain.evolves_to.map(async (stage2) => {
+      evoChainJson.chain.evolves_to.map(async (stage2: any) => {
         if (stage2.evolves_to.length !== 0) {
-          stage2.evolves_to.map(async (stage3) => {
-            const allChain = [];
+          stage2.evolves_to.map(async (stage3: any) => {
+            const allChain: any = [];
 
-            allChain.push(
-              await fetch(`${URL}${evoChainJson.chain.species.name}`).then(
-                (res) => res.json()
-              ),
-              await fetch(`${URL}${stage2.species.name}`).then((res) =>
-                res.json()
-              ),
-              await fetch(`${URL}${stage3.species.name}`).then((res) =>
-                res.json()
-              )
+            const res1 = await fetch(
+              `${URL}${evoChainJson.chain.species.name}`
             );
+            const json1 = await res1.json();
+
+            const res2 = await fetch(`${URL}${stage2.species.name}`);
+            const json2 = await res2.json();
+
+            const res3 = await fetch(`${URL}${stage3.species.name}`);
+            const json3 = await res3.json();
+
+            allChain.push(json1, json2, json3);
             setEvoChain(allChain);
           });
         } else {
-          const allChain = [];
-          allChain.push(
-            await fetch(`${URL}${evoChainJson.chain.species.name}`).then(
-              (res) => res.json()
-            ),
-            await fetch(`${URL}${stage2.species.name}`).then((res) =>
-              res.json()
-            )
-          );
+          const allChain: any = [];
+
+          const res1 = await fetch(`${URL}${evoChainJson.chain.species.name}`);
+          const json1 = await res1.json();
+
+          const res2 = await fetch(`${URL}${stage2.species.name}`);
+          const json2 = await res2.json();
+
+          allChain.push(json1, json2);
           setEvoChain(allChain);
         }
       });
     } else {
-      const allChain = [];
-      allChain.push(
-        await fetch(`${URL}${evoChainJson.chain.species.name}`).then((res) =>
-          res.json()
-        )
-      );
+      const allChain: any = [];
+
+      const res = await fetch(`${URL}${evoChainJson.chain.species.name}`);
+      const json = await res.json();
+
+      allChain.push(json);
+
       setEvoChain(allChain);
     }
 

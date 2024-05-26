@@ -6,6 +6,16 @@ export interface Generation {
   limit: number;
 }
 
+export const getPokemons = async (offset: number, limit: number) => {
+  const URL = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`;
+  return await fetch(URL);
+};
+
+export const getPokemon = async (pokeId: string) => {
+  const URL = `https://pokeapi.co/api/v2/pokemon/${pokeId}`;
+  return await fetch(URL);
+};
+
 export const generations: Generation[] = [
   {
     id: 1,
@@ -71,13 +81,3 @@ export const generations: Generation[] = [
     limit: 112, //120 in total
   },
 ];
-
-export const getPokemons = async (offset: number, limit: number) => {
-  const URL = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`;
-  return await fetch(URL);
-};
-
-export const getPokemon = async (pokeId: string) => {
-  const URL = `https://pokeapi.co/api/v2/pokemon/${pokeId}`;
-  return await fetch(URL);
-};

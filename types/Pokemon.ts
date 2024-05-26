@@ -24,7 +24,7 @@ export type PokemonSingle = {
   name: string;
   height: number;
   weight: number;
-  sprites: string;
+  sprites?: string;
   species: string;
   abilities: PokemonAbility[];
   types: PokemonType[];

@@ -1,7 +1,6 @@
-import { Box, Radio, Tooltip, Grid } from "@mui/material";
+import { Radio, Tooltip } from "@mui/material";
 import { ChangeEvent, useState } from "react";
-import { typePokemon } from "../../types/pokemon";
-import "./FilterType.css";
+import { typePokemon } from "../types/Pokemon";
 
 function FilterType({ selectedType }: any) {
   const [selectedValue, setSelectedValue] = useState<string>("all");
