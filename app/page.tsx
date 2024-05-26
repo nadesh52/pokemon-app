@@ -287,7 +287,7 @@ const LandingPage = () => {
   }, [pokeId]);
 
   return (
-    <section>
+    <article>
       <nav className="__nav __nav-row --flex-row --center">
         <div className="__search-box --flex-row --center">
           <a href="/">
@@ -331,7 +331,7 @@ const LandingPage = () => {
         <div className="__loading">choosing you pokemon...</div>
       ) : (
         <>
-          <header className="__header-container">
+          <section className="__header-container">
             <div className="__container --margin-btm">
               <div className="__inner-container --flex-col">
                 <span className="__title">{pokemon.name}</span>
@@ -360,11 +360,11 @@ const LandingPage = () => {
                 </div>
               </div>
             </div>
-          </header>
+          </section>
 
           {/* main */}
 
-          <main className="__main-container">
+          <section className="__main-container">
             <div className="__main-top">
               <div className="__evo-title">Evolution Chain</div>
               <div className="--flex-row --justify-around">
@@ -401,13 +401,13 @@ const LandingPage = () => {
                 </a>
               </div>
             </div>
-          </main>
+          </section>
 
           {/* end main */}
 
           {/* prev next */}
 
-          <div className="__container --flex-row">
+          <section className="__container --flex-row">
             {pokemon.id > firstIdx && (
               <div
                 className="__main-nav --flex-row --center"
@@ -427,10 +427,10 @@ const LandingPage = () => {
                 <FontAwesomeIcon icon={faArrowRightLong} size="2xl" />
               </div>
             )}
-          </div>
+          </section>
         </>
       )}
-    </section>
+    </article>
   );
 };
 
