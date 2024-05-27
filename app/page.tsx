@@ -278,65 +278,77 @@ const LandingPage = () => {
     setPokeId(rand.toString());
   };
 
-  const onEvoClick = (e: any) => {
-    setPokeId(e.toString());
-  };
-
   useEffect(() => {
     fetchData(pokeId);
   }, [pokeId]);
 
   return (
     <article>
-      <nav className="__nav __nav-row --flex-row --center">
-        <div className="__search-box --flex-row --center">
+      <nav className="flex justify-between items-center bg-accent px-4 py-2">
+        <div className="flex items-center gap-4">
           <a href="/">
-            <Image
-              className="__logo"
-              src={logo}
-              alt=""
-              height={40}
-              width={40}
-            />
+            <Image src={logo} alt="" height={40} width={40} />
           </a>
-          <form className="--flex-row" onSubmit={onSubmit}>
-            <input
-              name="input"
-              onChange={(e: any) => setText(e.target.value)}
-              value={text}
-              className="__search"
-              type="number"
-              autoComplete="off"
-              placeholder="Search by number, Try me"
-            />
-            <FontAwesomeIcon
-              name="rand"
-              onClick={onRandom}
-              className="__random-icon"
-              icon={faDiceThree}
-              size="xl"
-            />
+
+          <form className="flex items-center gap-1" onSubmit={onSubmit}>
+            <label>
+              <input
+                name="input"
+                onChange={(e: any) => setText(e.target.value)}
+                value={text}
+                type="number"
+                autoComplete="off"
+                placeholder="Search by number, Try me"
+                className="h-8 rounded px-2 bg-base"
+              />
+            </label>
+
+            <button className="text-secondary hover:rotate-180 duration-200 ml-1">
+              <FontAwesomeIcon
+                name="rand"
+                onClick={onRandom}
+                icon={faDiceThree}
+                size="2xl"
+              />
+            </button>
           </form>
         </div>
-        <div className="__nav-menu --flex-row">
-          <a href="/p" className="__menu-link">
-            <span>table</span>
-          </a>
-          <span className="__menu-link">menu2</span>
-          <span className="__menu-link">menu3</span>
-        </div>
+
+        <ul className="flex items-center gap-3">
+          <li>
+            <a href="/p" className="__menu-link">
+              <span>table</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" className="__menu-link">
+              <span>link 1</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" className="__menu-link">
+              <span>link 2</span>
+            </a>
+          </li>
+        </ul>
       </nav>
 
       {isPending ? (
-        <div className="__loading">choosing you pokemon...</div>
+        <div className="text-center text-secondary text-lg font-medium">
+          <span>choosing you pokemon...</span>
+        </div>
       ) : (
         <>
-          <section className="__header-container">
-            <div className="__container --margin-btm">
-              <div className="__inner-container --flex-col">
-                <span className="__title">{pokemon.name}</span>
-                <div className="__type-container --flex-row">
-                  <div id="__number">#{padNumber(pokemon.id)}</div>
+          <section className="w-full px-4">
+            <div className="grid grid-cols-2">
+              <div className="content-center justify-self-center mx-24">
+                <span className="text-4xl text-secondary font-medium">
+                  {pokemon.name}
+                </span>
+                <div className="flex items-center gap-4">
+                  <span className="bg-black text-white w-fit text-lg tracking-wider font-medium py-1 px-3 rounded">
+                    #{padNumber(pokemon.id)}
+                  </span>
                   {pokemon.types.map((t: any, i: number) => (
                     <div key={i} className="__type" id={t.type.name}>
                       {t.type.name}
@@ -347,57 +359,95 @@ const LandingPage = () => {
                 <span className="__sub-title --self-center">
                   pokemon {pokemon.flavor_version}
                 </span>
-                <div className="__var --flex-row">
-                  <img src={pokemon.sprites.front_default} />
-                  <img src={pokemon.sprites.back_default} />
-                  <img src={pokemon.sprites.front_shiny} />
-                  <img src={pokemon.sprites.back_shiny} />
+
+                <div className="flex justify-evenly items-center gap-4">
+                  <Image
+                    src={pokemon.sprites.front_default}
+                    alt=""
+                    height={60}
+                    width={60}
+                  />
+                  <Image
+                    src={pokemon.sprites.back_default}
+                    alt=""
+                    height={60}
+                    width={60}
+                  />
+                  <Image
+                    src={pokemon.sprites.front_shiny}
+                    alt=""
+                    height={60}
+                    width={60}
+                  />
+                  <Image
+                    src={pokemon.sprites.back_shiny}
+                    alt=""
+                    height={60}
+                    width={60}
+                  />
                 </div>
               </div>
-              <div className="__inner-container">
-                <div className="__flex">
-                  <img className="__artwork" src={pokemon.artwork} />
-                </div>
+
+              <div className="content-center justify-self-center">
+                <Image
+                  className="__artwork"
+                  src={pokemon.artwork}
+                  alt=""
+                  height={300}
+                  width={300}
+                />
               </div>
             </div>
           </section>
 
           {/* main */}
 
-          <section className="__main-container">
-            <div className="__main-top">
-              <div className="__evo-title">Evolution Chain</div>
-              <div className="--flex-row --justify-around">
+          <section>
+            <div className="bg-primary p-4">
+              <span className="text-2xl text-white font-medium">
+                Evolution Chain
+              </span>
+
+              <div className="flex justify-evenly items-center mt-2">
                 {evoChain.map((evo: any, i: number) => (
-                  <div key={i} onClick={() => onEvoClick(evo.id)}>
-                    <div className="__evo-img-bg">
-                      <img
-                        className="__evo-img"
+                  <button key={i} onClick={() => setPokeId(evo.id)}>
+                    <div className="hover:bg-white p-2 rounded-md transition-all group">
+                      <Image
                         src={evo.sprites}
                         alt="evo-stage"
+                        height={100}
+                        width={100}
+                        className="group-hover:scale-150 transition-all"
                       />
+                      <div className="flex justify-evenly items-center">
+                        {evo.types.map((m: any, i: number) => (
+                          <span key={i}>{m.type.name}</span>
+                        ))}
+                      </div>
                     </div>
-                    <div className="--flex-row --justify-around">
-                      {evo.types.map((m: any, i: number) => (
-                        <div key={i} className="__type" id={m.type.name}>
-                          {m.type.name}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
 
-            <div className="__container __main-bot --flex-row">
-              <div className="__inner-container --justify-start">
-                <img src="https://archives.bulbagarden.net/media/upload/thumb/a/a7/PSMD_poster.png/250px-PSMD_poster.png" />
+            <div className="grid grid-cols-2 px-4 my-4">
+              <div className="content-center justify-self-center">
+                <Image
+                  src="https://archives.bulbagarden.net/media/upload/thumb/a/a7/PSMD_poster.png/250px-PSMD_poster.png"
+                  alt=""
+                  height={200}
+                  width={200}
+                />
               </div>
-              <div className="__body-right-box --flex-col">
-                <span className="__sub-title">{titleStr}</span>
-                <span className="__sub-title">{titleStr2}</span>
-                <a className="__button __menu-link" href="/p">
-                  discover more
+
+              <div className="flex flex-col gap-4">
+                <p className="indent-8">{titleStr}</p>
+                <p className="indent-8">{titleStr2}</p>
+                <a
+                  className="bg-secondary w-fit py-2 px-3 rounded-md text-white text-lg font-josefin font-medium"
+                  href="/table"
+                >
+                  Discover More
                 </a>
               </div>
             </div>
@@ -407,25 +457,35 @@ const LandingPage = () => {
 
           {/* prev next */}
 
-          <section className="__container --flex-row">
+          <section className="bg-accent flex items-center justify-evenly">
             {pokemon.id > firstIdx && (
-              <div
-                className="__main-nav --flex-row --center"
+              <a
+                className="flex items-center cursor-pointer"
                 onClick={() => setPokeId(prevPokemon.id.toString())}
               >
-                <FontAwesomeIcon icon={faArrowLeftLong} size="2xl" />
-                <img className="__nav-img" src={prevPokemon.sprites} />
-              </div>
+                <FontAwesomeIcon icon={faArrowLeftLong} size="xl" />
+                <Image
+                  src={prevPokemon.sprites}
+                  alt=""
+                  height={80}
+                  width={80}
+                />
+              </a>
             )}
 
             {pokemon.id < lastIdx && (
-              <div
-                className="__main-nav --flex-row --center"
+              <a
+                className="flex items-center cursor-pointer"
                 onClick={() => setPokeId(nextPokemon.id.toString())}
               >
-                <img className="__nav-img" src={nextPokemon.sprites} />
-                <FontAwesomeIcon icon={faArrowRightLong} size="2xl" />
-              </div>
+                <Image
+                  src={nextPokemon.sprites}
+                  alt=""
+                  height={80}
+                  width={80}
+                />
+                <FontAwesomeIcon icon={faArrowRightLong} size="xl" />
+              </a>
             )}
           </section>
         </>
