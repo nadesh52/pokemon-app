@@ -1,4 +1,3 @@
-import { Radio, Tooltip } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import { typePokemon } from "../types/Pokemon";
 
@@ -14,7 +13,7 @@ function FilterType({ selectedType }: any) {
     <div className="__filter-container">
       {typePokemon.map((type, i) => (
         <div className="__filter__icon-container" key={i}>
-          <Tooltip title={type.name} placement="top" disableInteractive>
+          {/* <Tooltip title={type.name} placement="top" disableInteractive>
             <Radio
               checked={selectedValue === type.name}
               onChange={handleChange}
@@ -35,7 +34,7 @@ function FilterType({ selectedType }: any) {
                 />
               }
             />
-          </Tooltip>
+          </Tooltip> */}
         </div>
       ))}
     </div>

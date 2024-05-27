@@ -1,10 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Pokemon, PokemonData } from "../../types/Pokemon";
-import { Generation, generations, getPokemons } from "../../utils/fetcher";
-import GenSelection from "../../components/GenSelection";
-import FilterType from "../../components/FilterType";
-import Card from "../../components/Card";
+import { Pokemon, PokemonData } from "@/types/Pokemon";
+import { getPokemons } from "@/utils/fetcher";
+import GenSelection from "@/components/GenSelection";
+import FilterType from "@/components/FilterType";
+import Card from "@/components/Card";
+import { Generation, generations } from "@/types/Generation";
 
 const PokemonsTable = () => {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
