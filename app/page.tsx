@@ -316,7 +316,7 @@ const LandingPage = () => {
 
         <ul className="flex items-center gap-3">
           <li>
-            <a href="/p" className="__menu-link">
+            <a href="/pokemon" className="__menu-link">
               <span>table</span>
             </a>
           </li>
