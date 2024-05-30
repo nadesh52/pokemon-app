@@ -11,6 +11,23 @@ const config = {
     extend: {
       fontFamily: { noto: ["Noto Sans Thai"], josefin: ["Josefin Sans"] },
     },
+    textColor: {
+      skin: {
+        base: "var(--color-text-base)",
+        type: "var(--color-text-type)",
+      },
+    },
+    backgroundColor: {
+      skin: {
+        white: "#FFFFFF",
+        black: "#000000",
+        fill: "var(--color-fill)",
+        "fill-dark": "var(--color-fill-dark)",
+        "fill-light": "var(--color-fill-light)",
+        "button-accent": "var(--color-button-accent)",
+        "button-accent-hover": "var(--color-button-accent-hover)",
+      },
+    },
     colors: {
       primary: "#211951",
       secondary: "#836FFF",

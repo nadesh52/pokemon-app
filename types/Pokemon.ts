@@ -12,7 +12,6 @@ export const initPokemon = {
   evolution_chain: "",
   hatch_counter: 0,
   names: [],
-  // shape: '',
   growth_rate: { name: "" },
   genera: "",
   japanName: "",
@@ -33,7 +32,6 @@ export type PokemonSingle = {
   evolution_chain: string;
   hatch_counter: number;
   names: PokemonNames[];
-  // shape: PokemonShape | null;
   growth_rate: PokemonGrowthRate;
   genera: string;
   japanName: string;

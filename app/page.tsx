@@ -2,14 +2,14 @@
 import { useEffect, useState } from "react";
 import logo from "@/public/assets/logos/pokeball_logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowLeftLong,
-  faArrowRightLong,
-  faDiceThree,
-} from "@fortawesome/free-solid-svg-icons";
-import { getPokemon } from "../utils/fetcher";
+import { faDiceThree } from "@fortawesome/free-solid-svg-icons";
 import { padNumber } from "../utils/padNumber";
+import { randomNumber } from "@/utils/randomNumber";
 import Image from "next/image";
+import LoadingBlock from "@/components/LoadingBlock";
+import { nextPoke, prevPoke } from "@/utils/navPoke";
+import NavPokemon from "@/components/NavPokemon";
+import EvoCard from "@/components/EvoCard";
 
 type NavPoke = {
   id: number;
@@ -58,24 +58,29 @@ const titleStr2 =
 
 const LandingPage = () => {
   const [pokeId, setPokeId] = useState(randomId);
-  const [text, setText] = useState("");
+  const [inputText, setInputText] = useState("");
   const [pokemon, setPokemon] = useState(initPoke);
   const [evoChain, setEvoChain] = useState([]);
   const [prevPokemon, setPrevPokemon] = useState<NavPoke>(initNavPoke);
   const [nextPokemon, setNextPokemon] = useState<NavPoke>(initNavPoke);
   const [isPending, setIsPending] = useState(true);
+  const [theme, setTheme] = useState("");
 
   const fetchData = async (pokeId: string) => {
-    if (pokeId !== "") {
+    try {
       setIsPending(true);
-      const res = await getPokemon(pokeId);
+      const res = await fetch(`${URL}/${pokeId}`);
       const jsonData = await res.json();
+
+      const newTheme = `theme-${jsonData.types[0].type.name}`;
+      console.log(newTheme);
+      setTheme(newTheme);
 
       const resSpecies = await fetch(jsonData.species.url);
       const jsonSpecies = await resSpecies.json();
 
-      const getName = (): string => {
-        const findingName = jsonSpecies.names
+      const getName = (name: any): string => {
+        const findingName = name
           .filter((n: any) => n.language.name === "en")
           .map((na: any) => {
             return na.name;
@@ -97,7 +102,7 @@ const LandingPage = () => {
 
       const poke = {
         id: jsonData.id,
-        name: getName(),
+        name: getName(jsonSpecies.names),
         sprites: jsonData.sprites,
         artwork: jsonData.sprites.other["official-artwork"]["front_default"],
         types: jsonData.types,
@@ -236,85 +241,46 @@ const LandingPage = () => {
       // prev and next poke //
 
       if (jsonData.id > firstIdx) {
-        const prevData = await fetch(`${URL}${jsonData.id - 1}`);
-        const prevPokeJson = await prevData.json();
-
-        const prevP: NavPoke = {
-          id: prevPokeJson.id,
-          name: prevPokeJson.name,
-          sprites:
-            prevPokeJson.sprites["other"]["official-artwork"]["front_default"],
-        };
-
-        setPrevPokemon(prevP);
+        setPrevPokemon(await prevPoke(jsonData.id));
       }
 
       if (jsonData.id < lastIdx) {
-        const nextData = await fetch(`${URL}${jsonData.id + 1}`);
-        const nextPokeJson = await nextData.json();
-
-        const nextP: NavPoke = {
-          id: nextPokeJson.id,
-          name: nextPokeJson.name,
-          sprites:
-            nextPokeJson.sprites["other"]["official-artwork"]["front_default"],
-        };
-        setNextPokemon(nextP);
+        setNextPokemon(await nextPoke(jsonData.id));
       }
 
       setIsPending(false);
+    } catch (error) {
+      throw error;
     }
   };
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    setPokeId(text);
-    setText("");
-  };
-
-  const onRandom = (e: any) => {
-    e.preventDefault();
-    const rand = Math.floor(Math.random() * 1025);
-    setPokeId(rand.toString());
+    setPokeId(inputText);
+    setInputText("");
   };
 
   useEffect(() => {
     fetchData(pokeId);
-  }, [pokeId]);
+  }, [pokeId, theme]);
 
   return (
     <article>
-      <nav className="flex justify-between items-center bg-accent px-4 py-2">
+      <nav className="flex justify-between items-center bg-skin-fill px-4 py-2">
         <div className="flex items-center gap-4">
           <a href="/">
             <Image src={logo} alt="" height={40} width={40} />
           </a>
 
-          <form className="flex items-center gap-1" onSubmit={onSubmit}>
-            <label>
-              <input
-                name="input"
-                onChange={(e: any) => setText(e.target.value)}
-                value={text}
-                type="number"
-                autoComplete="off"
-                placeholder="Search by number, Try me"
-                className="h-8 rounded px-2 bg-base"
-              />
-            </label>
-
-            <button className="text-secondary hover:rotate-180 duration-200 ml-1">
-              <FontAwesomeIcon
-                name="rand"
-                onClick={onRandom}
-                icon={faDiceThree}
-                size="2xl"
-              />
-            </button>
-          </form>
+          <button
+            className="text-skin-base hover:rotate-180 duration-200 ml-1"
+            onClick={(e) => setPokeId(randomNumber(e))}
+          >
+            <FontAwesomeIcon name="rand" icon={faDiceThree} size="2xl" />
+          </button>
         </div>
 
-        <ul className="flex items-center gap-3">
+        <ul className="flex items-center gap-3 text-skin-base">
           <li>
             <a href="/pokemon" className="__menu-link">
               <span>table</span>
@@ -334,31 +300,60 @@ const LandingPage = () => {
       </nav>
 
       {isPending ? (
-        <div className="text-center text-secondary text-lg font-medium">
-          <span>choosing you pokemon...</span>
-        </div>
+        <LoadingBlock />
       ) : (
-        <>
+        <div className={`${theme}`}>
           <section className="w-full px-4">
+            <div className="max-w-sm my-10 mx-auto">
+              <div>
+                <p className="text-center text-4xl text-secondary font-josefin font-medium">
+                  Random landing page by Pokemon identity
+                </p>
+                <p className="text-center text-type-ghost-normal">
+                  try it now!
+                </p>
+              </div>
+
+              <form onSubmit={onSubmit} className="my-2">
+                <label>
+                  <input
+                    onChange={(e: any) => setInputText(e.target.value)}
+                    value={inputText}
+                    type="number"
+                    autoComplete="off"
+                    placeholder="Enter Pokemon number"
+                    className="h-11 rounded-xl shadow-lg w-full px-4 outline-none ring-1 ring-opacity-40 ring-secondary focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-secondary"
+                  />
+                </label>
+              </form>
+            </div>
+
             <div className="grid grid-cols-2">
-              <div className="content-center justify-self-center mx-24">
-                <span className="text-4xl text-secondary font-medium">
+              <div className="content-center justify-self-center">
+                <span className="text-4xl text-skin-type font-josefin font-medium">
                   {pokemon.name}
                 </span>
-                <div className="flex items-center gap-4">
-                  <span className="bg-black text-white w-fit text-lg tracking-wider font-medium py-1 px-3 rounded">
+
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="bg-skin-black text-skin-base w-fit tracking-wider font-josefin font-medium py-1 px-3 rounded">
                     #{padNumber(pokemon.id)}
                   </span>
                   {pokemon.types.map((t: any, i: number) => (
-                    <div key={i} className="__type" id={t.type.name}>
+                    <span
+                      key={i}
+                      className="bg-skin-fill text-skin-base w-fit py-1 px-2 rounded font-josefin"
+                      id={t.type.name}
+                    >
                       {t.type.name}
-                    </div>
+                    </span>
                   ))}
                 </div>
-                <span className="__sub-title">{pokemon.flavor_text}</span>
-                <span className="__sub-title --self-center">
+                <p className="text-lg font-josefin indent-8">
+                  {pokemon.flavor_text}
+                </p>
+                <p className="font-josefin text-right font-medium">
                   pokemon {pokemon.flavor_version}
-                </span>
+                </p>
 
                 <div className="flex justify-evenly items-center gap-4">
                   <Image
@@ -389,13 +384,7 @@ const LandingPage = () => {
               </div>
 
               <div className="content-center justify-self-center">
-                <Image
-                  className="__artwork"
-                  src={pokemon.artwork}
-                  alt=""
-                  height={300}
-                  width={300}
-                />
+                <Image src={pokemon.artwork} alt="" height={250} width={250} />
               </div>
             </div>
           </section>
@@ -403,29 +392,18 @@ const LandingPage = () => {
           {/* main */}
 
           <section>
-            <div className="bg-primary p-4">
-              <span className="text-2xl text-white font-medium">
+            <div className="bg-skin-fill-light p-4">
+              <span className="text-2xl text-skin-base font-medium font-josefin">
                 Evolution Chain
               </span>
 
               <div className="flex justify-evenly items-center mt-2">
                 {evoChain.map((evo: any, i: number) => (
-                  <button key={i} onClick={() => setPokeId(evo.id)}>
-                    <div className="hover:bg-white p-2 rounded-md transition-all group">
-                      <Image
-                        src={evo.sprites}
-                        alt="evo-stage"
-                        height={100}
-                        width={100}
-                        className="group-hover:scale-150 transition-all"
-                      />
-                      <div className="flex justify-evenly items-center">
-                        {evo.types.map((m: any, i: number) => (
-                          <span key={i}>{m.type.name}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </button>
+                  <EvoCard
+                    key={i}
+                    evo={evo}
+                    onClick={() => setPokeId(evo.id)}
+                  />
                 ))}
               </div>
             </div>
@@ -444,7 +422,7 @@ const LandingPage = () => {
                 <p className="indent-8">{titleStr}</p>
                 <p className="indent-8">{titleStr2}</p>
                 <a
-                  className="bg-secondary w-fit py-2 px-3 rounded-md text-white text-lg font-josefin font-medium"
+                  className="bg-skin-button-accent w-fit py-2 px-3 rounded-md text-white text-skin-base text-lg font-josefin font-medium hover:bg-skin-button-accent-hover"
                   href="/table"
                 >
                   Discover More
@@ -456,42 +434,16 @@ const LandingPage = () => {
           {/* end main */}
 
           {/* prev next */}
-
-          <section className="bg-accent flex items-center justify-evenly">
-            {pokemon.id > firstIdx && (
-              <a
-                className="flex items-center cursor-pointer"
-                onClick={() => setPokeId(prevPokemon.id.toString())}
-              >
-                <FontAwesomeIcon icon={faArrowLeftLong} size="xl" />
-                <Image
-                  src={prevPokemon.sprites}
-                  alt=""
-                  height={80}
-                  width={80}
-                />
-              </a>
-            )}
-
-            {pokemon.id < lastIdx && (
-              <a
-                className="flex items-center cursor-pointer"
-                onClick={() => setPokeId(nextPokemon.id.toString())}
-              >
-                <Image
-                  src={nextPokemon.sprites}
-                  alt=""
-                  height={80}
-                  width={80}
-                />
-                <FontAwesomeIcon icon={faArrowRightLong} size="xl" />
-              </a>
-            )}
-          </section>
-        </>
+          <NavPokemon
+            pokemon={pokemon}
+            prevPokemon={prevPokemon}
+            nextPokemon={nextPokemon}
+            nextClick={() => setPokeId(nextPokemon.id.toString())}
+            prevClick={() => setPokeId(prevPokemon.id.toString())}
+          />
+        </div>
       )}
     </article>
   );
 };
-
 export default LandingPage;
