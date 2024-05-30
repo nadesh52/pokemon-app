@@ -1,6 +1,6 @@
 "use client";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
+// import Image from "next/image";
+import React from "react";
 
 const PokemonPage = ({ params }: { params: { pokemonId: string } }) => {
   // const [pokemon, setPokemon] = useState({ sprites: { front_default: "" } });
