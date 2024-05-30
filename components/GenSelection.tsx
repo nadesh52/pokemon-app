@@ -9,54 +9,71 @@ const GenSelection = ({ selectedGen }: any) => {
   const listRef = useRef(null);
   const menuRef = useRef(null);
 
+  const handleClick = (event: any, gen: any) => {
+    event.preventDefault();
+    selectedGen(gen);
+  };
+
   useEffect(() => {
     window.addEventListener("click", (e: any) => {
-      if (e.target !== listRef.current) {
+      if (e.target !== listRef.current || e.target === menuRef.current) {
         setIsHidden(true);
       }
     });
   }, []);
 
   return (
-    <label className="relative">
-      <button
-        ref={listRef}
-        onClick={() => setIsHidden(!isHidden)}
-        className="h-10 w-full"
-      >
-        <span className="pointer-events-none">Generation Select</span>
-      </button>
-      {!isHidden && (
-        <div
-          ref={menuRef}
-          className="absolute bg-white left-0 top-full min-w-full w-max z-50"
+    <div className="bg-white rounded-lg w-fit mx-auto shadow-md">
+      <label className="relative">
+        <button
+          ref={listRef}
+          onClick={() => setIsHidden(false)}
+          className="bg-white h-10 rounded-md px-4"
         >
-          <ul className="p-2 rounded-lg shadow-md text-left">
-            {generations.map((gen: Generation, idx: number) => (
-              <li
-                key={idx}
-                className="px-4 py-2 bg-white text-secondary rounded-md hover:bg-secondary hover:text-white cursor-default select-none"
-                onClick={() =>
-                  selectedGen(
-                    JSON.stringify({
-                      id: gen.id,
-                      name: gen.name,
-                      region: gen.region,
-                      offset: gen.offset,
-                      limit: gen.limit,
-                    })
-                  )
-                }
+          <div className="flex justify-between items-center gap-2 pointer-events-none">
+            <span className="font-josefin text-lg font-medium">
+              Select Generation
+            </span>
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
               >
-                <span className="pointer-events-none">
-                  {capitalize(gen.region)} ({capitalize(gen.name)})
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </label>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                />
+              </svg>
+            </span>
+          </div>
+        </button>
+        {!isHidden && (
+          <div
+            ref={menuRef}
+            className="absolute bg-white left-0 top-full mt-3.5 z-50 "
+          >
+            <ul className="p-2 rounded-lg shadow-md text-left">
+              {generations.map((gen: Generation, idx: number) => (
+                <li
+                  key={idx}
+                  className="px-4 py-2 bg-white text-secondary rounded-md cursor-pointer hover:bg-secondary hover:text-white select-none"
+                  onClick={(e: any) => handleClick(e, gen)}
+                >
+                  <span className="pointer-events-none">
+                    {capitalize(gen.region)} ({capitalize(gen.name)})
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </label>
+    </div>
 
     // <FormControl>
     //   <Select

@@ -10,3 +10,195 @@ html {
   line-height: 20px;
   /* color: #0c2d57; */
 }
+
+@layer base {
+  :root {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #68a090;
+    --color-fill-dark: #44685e;
+    --color-fill-light: #9dc1b7;
+    --color-button-accent: #9dc1b7;
+    --color-button-accent-hover: #44685e;
+  }
+
+  .theme-bug {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #a8b820;
+    --color-fill-dark: #6d7815;
+    --color-fill-light: #c6d16e;
+    --color-button-accent: #c6d16e;
+    --color-button-accent-hover: #6d7815;
+  }
+
+  .theme-dark {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #705848;
+    --color-fill-dark: #49392f;
+    --color-fill-light: #a29288;
+    --color-button-accent: #a29288;
+    --color-button-accent-hover: #49392f;
+  }
+
+  .theme-dragon {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #7038f8;
+    --color-fill-dark: #4924a1;
+    --color-fill-light: #a27dfa;
+    --color-button-accent: #a27dfa;
+    --color-button-accent-hover: #4924a1;
+  }
+
+  .theme-electric {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #f8d030;
+    --color-fill-dark: #a1871f;
+    --color-fill-light: #fae078;
+    --color-button-accent: #fae078;
+    --color-button-accent-hover: #a1871f;
+  }
+
+  .theme-fairy {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #ee99ac;
+    --color-fill-dark: #9b6470;
+    --color-fill-light: #f4bdc9;
+    --color-button-accent: #f4bdc9;
+    --color-button-accent-hover: #9b6470;
+  }
+
+  .theme-fighting {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #c03028;
+    --color-fill-dark: #7d1f1a;
+    --color-fill-light: #d67873;
+    --color-button-accent: #d67873;
+    --color-button-accent-hover: #7d1f1a;
+  }
+
+  .theme-fire {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #f08030;
+    --color-fill-dark: #9c531f;
+    --color-fill-light: #f5ac78;
+    --color-button-accent: #f5ac78;
+    --color-button-accent-hover: #9c531f;
+  }
+
+  .theme-flying {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #a890f0;
+    --color-fill-dark: #6d5e9c;
+    --color-fill-light: #c6b7f5;
+    --color-button-accent: #c6b7f5;
+    --color-button-accent-hover: #6d5e9c;
+  }
+
+  .theme-ghost {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #705898;
+    --color-fill-dark: #493963;
+    --color-fill-light: #a292bc;
+    --color-button-accent: #a292bc;
+    --color-button-accent-hover: #493963;
+  }
+
+  .theme-grass {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #78c850;
+    --color-fill-dark: #4e8234;
+    --color-fill-light: #a7db8d;
+    --color-button-accent: #a7db8d;
+    --color-button-accent-hover: #4e8234;
+  }
+
+  .theme-ground {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #e0c068;
+    --color-fill-dark: #927d44;
+    --color-fill-light: #ebd69d;
+    --color-button-accent: #ebd69d;
+    --color-button-accent-hover: #927d44;
+  }
+
+  .theme-ice {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #98d8d8;
+    --color-fill-dark: #638d8d;
+    --color-fill-light: #bce6e6;
+    --color-button-accent: #bce6e6;
+    --color-button-accent-hover: #638d8d;
+  }
+
+  .theme-normal {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #a8a878;
+    --color-fill-dark: #6d6d4e;
+    --color-fill-light: #c6c6a7;
+    --color-button-accent: #c6c6a7;
+    --color-button-accent-hover: #6d6d4e;
+  }
+
+  .theme-poison {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #a040a0;
+    --color-fill-dark: #682a68;
+    --color-fill-light: #c183c1;
+    --color-button-accent: #c183c1;
+    --color-button-accent-hover: #682a68;
+  }
+
+  .theme-psychic {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #f85888;
+    --color-fill-dark: #a13959;
+    --color-fill-light: #fa92b2;
+    --color-button-accent: #fa92b2;
+    --color-button-accent-hover: #a13959;
+  }
+
+  .theme-rock {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #b8a038;
+    --color-fill-dark: #786824;
+    --color-fill-light: #d1c17d;
+    --color-button-accent: #d1c17d;
+    --color-button-accent-hover: #786824;
+  }
+
+  .theme-steel {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #b8b8d0;
+    --color-fill-dark: #787887;
+    --color-fill-light: #d1d1e0;
+    --color-button-accent: #d1d1e0;
+    --color-button-accent-hover: #787887;
+  }
+
+  .theme-water {
+    --color-text-base: #ffffff;
+    --color-text-type: #0f0f0f;
+    --color-fill: #6890f0;
+    --color-fill-dark: #445e9c;
+    --color-fill-light: #9db7f5;
+    --color-button-accent: #9db7f5;
+    --color-button-accent-hover: #445e9c;
+  }
+}
