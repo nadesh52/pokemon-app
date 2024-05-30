@@ -3,30 +3,30 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 const PokemonPage = ({ params }: { params: { pokemonId: string } }) => {
-  const [pokemon, setPokemon] = useState({ sprites: { front_default: "" } });
-  const fetchData = async () => {
-    const URL = `https://pokeapi.co/api/v2/pokemon/${params.pokemonId}`;
-    const res = await fetch(URL);
-    const jsonData = await res.json();
+  // const [pokemon, setPokemon] = useState({ sprites: { front_default: "" } });
+  // const fetchData = async () => {
+  //   const URL = `https://pokeapi.co/api/v2/pokemon/${params.pokemonId}`;
+  //   const res = await fetch(URL);
+  //   const jsonData = await res.json();
 
-    setPokemon(jsonData);
+  //   setPokemon(jsonData);
 
-    console.log(jsonData);
-  };
+  //   console.log(jsonData);
+  // };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [pokemon]);
 
   return (
     <div>
-      {params.pokemonId}
+      {/* {params.pokemonId}
       <Image
         src={pokemon.sprites.front_default}
         alt="y                                                                                                                                                                                                                                                                                                                                              "
         height={100}
         width={100}
-      />
+      /> */}
     </div>
   );
 };
