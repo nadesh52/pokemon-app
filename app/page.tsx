@@ -7,28 +7,8 @@ import { padNumber } from "../utils/padNumber";
 import { randomNumber } from "@/utils/randomNumber";
 import Image from "next/image";
 import LoadingBlock from "@/components/LoadingBlock";
-import { nextPoke, prevPoke } from "@/utils/navPoke";
 import NavPokemon from "@/components/NavPokemon";
-import EvoCard from "@/components/EvoCard";
-
-type NavPoke = {
-  id: number;
-  name: string;
-  sprites: string;
-};
-
-const initNavPoke: NavPoke = {
-  id: 0,
-  name: "",
-  sprites: "",
-};
-
-type EvoPoke = {
-  id: number;
-  name: string;
-  sprites: string;
-  types: [];
-};
+import EvoChain from "@/components/EvoChain";
 
 const initPoke = {
   id: 0,
@@ -44,11 +24,8 @@ const initPoke = {
   flavor_text: "",
   flavor_version: "",
 };
-const firstIdx = 1;
-const lastIdx = 1025;
 
 const URL = "https://pokeapi.co/api/v2/pokemon/";
-const randomId = Math.floor(Math.random() * 1025).toString();
 
 const titleStr =
   "While most Pokémon resemble animals and may behave like them,there are many that do not resemble animals at all, taking onother forms such as plants, inanimate objects, machines,human-like forms, or other more enigmatic and exoticappearances.";
@@ -57,12 +34,10 @@ const titleStr2 =
   "Pokémon inhabit an extremely diverse range of habitats,ranging from the driest deserts to the lushest jungles, thedeepest oceans to the highest mountains and everything else inbetween, even outer space and other dimensions.";
 
 const LandingPage = () => {
-  const [pokeId, setPokeId] = useState(randomId);
-  const [inputText, setInputText] = useState("");
+  const [pokeId, setPokeId] = useState(randomNumber);
   const [pokemon, setPokemon] = useState(initPoke);
-  const [evoChain, setEvoChain] = useState([]);
-  const [prevPokemon, setPrevPokemon] = useState<NavPoke>(initNavPoke);
-  const [nextPokemon, setNextPokemon] = useState<NavPoke>(initNavPoke);
+  const [evoData, setEvoData] = useState();
+  const [inputText, setInputText] = useState("");
   const [isPending, setIsPending] = useState(true);
   const [theme, setTheme] = useState("");
 
@@ -116,138 +91,7 @@ const LandingPage = () => {
       const evoChain = await fetch(jsonSpecies.evolution_chain.url);
       const evoChainJson = await evoChain.json();
 
-      if (evoChainJson.chain.evolves_to.length !== 0) {
-        evoChainJson.chain.evolves_to.map(async (stage2: any) => {
-          if (stage2.evolves_to.length !== 0) {
-            stage2.evolves_to.map(async (stage3: any) => {
-              const allChain: any = [];
-
-              const res1 = await fetch(
-                `${URL}${evoChainJson.chain.species.name}`
-              );
-              const json1 = await res1.json();
-
-              const res2 = await fetch(`${URL}${stage2.species.name}`);
-              const json2 = await res2.json();
-
-              const res3 = await fetch(`${URL}${stage3.species.name}`);
-              const json3 = await res3.json();
-
-              const s1: EvoPoke = {
-                id: json1.id,
-                name: json1.name,
-                sprites:
-                  json1.sprites.other["official-artwork"]["front_default"],
-                types: json1.types,
-              };
-
-              const s2: EvoPoke = {
-                id: json2.id,
-                name: json2.name,
-                sprites:
-                  json2.sprites.other["official-artwork"]["front_default"],
-                types: json2.types,
-              };
-
-              const s3: EvoPoke = {
-                id: json3.id,
-                name: json3.name,
-                sprites:
-                  json3.sprites.other["official-artwork"]["front_default"],
-                types: json3.types,
-              };
-
-              allChain.push(s1, s2, s3);
-              return setEvoChain(allChain);
-            });
-          } else {
-            const allChain: any = [];
-
-            if (evoChainJson.id === 348) {
-              const maleName = "meowstic-male";
-              const femaleName = "meowstic-female";
-
-              const resMale = await fetch(`${URL}${maleName}`);
-              const jsonMale = await resMale.json();
-
-              const resFemale = await fetch(`${URL}${femaleName}`);
-              const jsonFemale = await resFemale.json();
-
-              const sMale: EvoPoke = {
-                id: jsonMale.id,
-                name: jsonMale.name,
-                sprites:
-                  jsonMale.sprites.other["official-artwork"]["front_default"],
-                types: jsonMale.types,
-              };
-
-              const sFemale: EvoPoke = {
-                id: jsonFemale.id,
-                name: jsonFemale.name,
-                sprites:
-                  jsonFemale.sprites.other["official-artwork"]["front_default"],
-                types: jsonFemale.types,
-              };
-
-              allChain.push(sMale, sFemale);
-              return setEvoChain(allChain);
-            } else {
-              const res1 = await fetch(
-                `${URL}${evoChainJson.chain.species.name}`
-              );
-              const json1 = await res1.json();
-
-              const res2 = await fetch(`${URL}${stage2.species.name}`);
-              const json2 = await res2.json();
-
-              const s1: EvoPoke = {
-                id: json1.id,
-                name: json1.name,
-                sprites:
-                  json1.sprites.other["official-artwork"]["front_default"],
-                types: json1.types,
-              };
-
-              const s2: EvoPoke = {
-                id: json2.id,
-                name: json2.name,
-                sprites:
-                  json2.sprites.other["official-artwork"]["front_default"],
-                types: json2.types,
-              };
-              allChain.push(s1, s2);
-              return setEvoChain(allChain);
-            }
-          }
-        });
-      } else {
-        const allChain: any = [];
-
-        const res = await fetch(`${URL}${evoChainJson.chain.species.name}`);
-        const json1 = await res.json();
-
-        const s1: EvoPoke = {
-          id: json1.id,
-          name: json1.name,
-          sprites: json1.sprites.other["official-artwork"]["front_default"],
-          types: json1.types,
-        };
-
-        allChain.push(s1);
-
-        return setEvoChain(allChain);
-      }
-
-      // prev and next poke //
-
-      if (jsonData.id > firstIdx) {
-        setPrevPokemon(await prevPoke(jsonData.id));
-      }
-
-      if (jsonData.id < lastIdx) {
-        setNextPokemon(await nextPoke(jsonData.id));
-      }
-
+      setEvoData(evoChainJson);
       setIsPending(false);
     } catch (error) {
       throw error;
@@ -274,7 +118,7 @@ const LandingPage = () => {
 
           <button
             className="text-skin-base hover:rotate-180 duration-200 ml-1"
-            onClick={(e) => setPokeId(randomNumber(e))}
+            onClick={() => setPokeId(randomNumber)}
           >
             <FontAwesomeIcon name="rand" icon={faDiceThree} size="2xl" />
           </button>
@@ -282,17 +126,17 @@ const LandingPage = () => {
 
         <ul className="flex items-center gap-3 text-skin-base">
           <li>
-            <a href="/pokemon" className="__menu-link">
+            <a href="/pokemon-app/pokemon">
               <span>table</span>
             </a>
           </li>
           <li>
-            <a href="#" className="__menu-link">
+            <a href="#">
               <span>link 1</span>
             </a>
           </li>
           <li>
-            <a href="#" className="__menu-link">
+            <a href="#">
               <span>link 2</span>
             </a>
           </li>
@@ -389,24 +233,8 @@ const LandingPage = () => {
             </div>
           </section>
 
-          {/* main */}
-
           <section>
-            <div className="bg-skin-fill-light p-4">
-              <span className="text-2xl text-skin-base font-medium font-josefin">
-                Evolution Chain
-              </span>
-
-              <div className="flex justify-evenly items-center mt-2">
-                {evoChain.map((evo: any, i: number) => (
-                  <EvoCard
-                    key={i}
-                    evo={evo}
-                    onClick={() => setPokeId(evo.id)}
-                  />
-                ))}
-              </div>
-            </div>
+            <EvoChain evoData={evoData} onEvoClick={(e: any) => setPokeId(e)} />
 
             <div className="grid grid-cols-2 px-4 my-4">
               <div className="content-center justify-self-center">
@@ -431,16 +259,7 @@ const LandingPage = () => {
             </div>
           </section>
 
-          {/* end main */}
-
-          {/* prev next */}
-          <NavPokemon
-            pokemon={pokemon}
-            prevPokemon={prevPokemon}
-            nextPokemon={nextPokemon}
-            nextClick={() => setPokeId(nextPokemon.id.toString())}
-            prevClick={() => setPokeId(prevPokemon.id.toString())}
-          />
+          <NavPokemon pokemon={pokemon} onNewNav={(e: any) => setPokeId(e)} />
         </div>
       )}
     </article>

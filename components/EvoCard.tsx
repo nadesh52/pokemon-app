@@ -3,7 +3,7 @@ import React from "react";
 
 const EvoCard = ({ evo, onClick }: any) => {
   return (
-    <div onClick={onClick}>
+    <button onClick={onClick}>
       <div className="hover:bg-skin-fill-dark p-2 rounded-md transition-all group">
         <Image
           src={evo.sprites}
@@ -23,7 +23,7 @@ const EvoCard = ({ evo, onClick }: any) => {
           ))}
         </div>
       </div>
-    </div>
+    </button>
   );
 };
 
