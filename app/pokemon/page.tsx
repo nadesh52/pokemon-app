@@ -28,8 +28,8 @@ const PokemonsTable = () => {
   useEffect(() => {}, []);
 
   return (
-    <section className="bg-base min-h-[calc(100dvh-114px)]">
-      <nav className="flex justify-between items-center bg-accent p-4">
+    <section className="bg-skin-white min-h-[calc(100dvh-114px)]">
+      <nav className="flex justify-between items-center bg-skin-fill p-4">
         <div className="hover:rotate-45 transition">
           <a href="/pokemon">
             <Image src={logo} alt="" height={40} width={40} />
@@ -38,7 +38,7 @@ const PokemonsTable = () => {
         <ul className="flex items-center gap-3">
           <li>
             <a href="/">
-              <span className="font-josefin font-medium text-lg p-2 w-fit bg-accent rounded-md hover:text-white hover:bg-secondary transition">
+              <span className="font-josefin font-medium text-lg p-2 w-fit rounded-md hover:text-skin-base hover:bg-skin-fill-dark transition">
                 Home
               </span>
             </a>

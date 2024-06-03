@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import LoadingBlock from "./LoadingBlock";
+import logo from "@/public/assets/logos/pokeball_logo.png";
 
 type NavPoke = {
   id: number;
@@ -69,22 +70,34 @@ const NavPokemon = ({ pokemon, onNewNav }: any) => {
         <LoadingBlock />
       ) : (
         <>
-          {pokemon.id > firstIdx && (
+          {pokemon.id >= firstIdx && (
             <div
               className="flex items-center gap-4 text-skin-base"
               onClick={() => onNewNav(prev.id)}
             >
               <FontAwesomeIcon icon={faArrowLeftLong} size="xl" />
-              <Image src={prev.sprite} alt="" height={80} width={80} />
+
+              <Image
+                src={prev.sprite ? prev.sprite : logo}
+                alt=""
+                height={80}
+                width={80}
+              />
             </div>
           )}
 
-          {pokemon.id < lastIdx && (
+          {pokemon.id <= lastIdx && (
             <div
               className="flex items-center gap-4 text-skin-base"
               onClick={() => onNewNav(next.id)}
             >
-              <Image src={next.sprite} alt="" height={80} width={80} />
+              <Image
+                src={next.sprite ? next.sprite : logo}
+                alt=""
+                height={80}
+                width={80}
+              />
+
               <FontAwesomeIcon icon={faArrowRightLong} size="xl" />
             </div>
           )}

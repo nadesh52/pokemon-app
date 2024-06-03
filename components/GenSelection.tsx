@@ -23,7 +23,7 @@ const GenSelection = ({ selectedGen }: any) => {
   }, []);
 
   return (
-    <div className="bg-white rounded-lg w-fit mx-auto shadow-md">
+    <div className="bg-skin-white rounded-lg w-fit mx-auto shadow-md">
       <label className="relative">
         <button
           ref={listRef}
@@ -55,13 +55,13 @@ const GenSelection = ({ selectedGen }: any) => {
         {!isHidden && (
           <div
             ref={menuRef}
-            className="absolute bg-white left-0 top-full mt-3.5 z-50 "
+            className="absolute bg-skin-white left-0 top-full mt-3.5 z-50 "
           >
             <ul className="p-2 rounded-lg shadow-md text-left">
               {generations.map((gen: Generation, idx: number) => (
                 <li
                   key={idx}
-                  className="px-4 py-2 bg-white text-secondary rounded-md cursor-pointer hover:bg-secondary hover:text-white select-none"
+                  className="px-4 py-2 bg-skin-white text-skin-type rounded-md cursor-pointer hover:bg-skin-fill hover:text-skin-base select-none"
                   onClick={(e: any) => handleClick(e, gen)}
                 >
                   <span className="pointer-events-none">
@@ -74,30 +74,6 @@ const GenSelection = ({ selectedGen }: any) => {
         )}
       </label>
     </div>
-
-    // <FormControl>
-    //   <Select
-    //     className="__select"
-    //     size="small"
-    //     defaultValue=""
-    //     onChange={(e: SelectChangeEvent) => selectedGen(e.target.value)}
-    //   >
-    //     {generations.map((gen: Generation, i: number) => (
-    //       <MenuItem
-    //         key={i}
-    //         value={JSON.stringify({
-    //           id: gen.id,
-    //           name: gen.name,
-    //           region: gen.region,
-    //           offset: gen.offset,
-    //           limit: gen.limit,
-    //         })}
-    //       >
-    //         {gen.name} ({gen.region})
-    //       </MenuItem>
-    //     ))}
-    //   </Select>
-    // </FormControl>
   );
 };
 

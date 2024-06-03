@@ -47,9 +47,18 @@ const LandingPage = () => {
       const res = await fetch(`${URL}/${pokeId}`);
       const jsonData = await res.json();
 
-      const newTheme = `theme-${jsonData.types[0].type.name}`;
-      console.log(newTheme);
-      setTheme(newTheme);
+      if (jsonData.types.length >= 2) {
+        if (jsonData.types[0].type.name === "normal") {
+          const newTheme = `theme-${jsonData.types[1].type.name}`;
+          setTheme(newTheme);
+        } else {
+          const newTheme = `theme-${jsonData.types[0].type.name}`;
+          setTheme(newTheme);
+        }
+      } else {
+        const newTheme = `theme-${jsonData.types[0].type.name}`;
+        setTheme(newTheme);
+      }
 
       const resSpecies = await fetch(jsonData.species.url);
       const jsonSpecies = await resSpecies.json();
@@ -109,7 +118,7 @@ const LandingPage = () => {
   }, [pokeId, theme]);
 
   return (
-    <article>
+    <article className={`${theme}`}>
       <nav className="flex justify-between items-center bg-skin-fill px-4 py-2">
         <div className="flex items-center gap-4">
           <a href="/">
@@ -146,16 +155,14 @@ const LandingPage = () => {
       {isPending ? (
         <LoadingBlock />
       ) : (
-        <div className={`${theme}`}>
+        <div>
           <section className="w-full px-4">
             <div className="max-w-sm my-10 mx-auto">
               <div>
-                <p className="text-center text-4xl text-secondary font-josefin font-medium">
+                <p className="text-center text-4xl text-skin-type font-josefin font-medium">
                   Random landing page by Pokemon identity
                 </p>
-                <p className="text-center text-type-ghost-normal">
-                  try it now!
-                </p>
+                <p className="text-center text-skin-type">try it now!</p>
               </div>
 
               <form onSubmit={onSubmit} className="my-2">
@@ -179,13 +186,13 @@ const LandingPage = () => {
                 </span>
 
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="bg-skin-black text-skin-base w-fit tracking-wider font-josefin font-medium py-1 px-3 rounded">
+                  <span className="bg-skin-black text-skin-base w-fit tracking-wider font-josefin font-medium pt-2 pb-1 px-3 rounded">
                     #{padNumber(pokemon.id)}
                   </span>
                   {pokemon.types.map((t: any, i: number) => (
                     <span
                       key={i}
-                      className="bg-skin-fill text-skin-base w-fit py-1 px-2 rounded font-josefin"
+                      className="bg-skin-fill text-skin-base w-fit pt-2 pb-1 px-2 rounded font-josefin"
                       id={t.type.name}
                     >
                       {t.type.name}
@@ -201,25 +208,41 @@ const LandingPage = () => {
 
                 <div className="flex justify-evenly items-center gap-4">
                   <Image
-                    src={pokemon.sprites.front_default}
+                    src={
+                      pokemon.sprites.front_default
+                        ? pokemon.sprites.front_default
+                        : logo
+                    }
                     alt=""
                     height={60}
                     width={60}
                   />
                   <Image
-                    src={pokemon.sprites.back_default}
+                    src={
+                      pokemon.sprites.back_default
+                        ? pokemon.sprites.back_default
+                        : logo
+                    }
                     alt=""
                     height={60}
                     width={60}
                   />
                   <Image
-                    src={pokemon.sprites.front_shiny}
+                    src={
+                      pokemon.sprites.front_shiny
+                        ? pokemon.sprites.front_shiny
+                        : logo
+                    }
                     alt=""
                     height={60}
                     width={60}
                   />
                   <Image
-                    src={pokemon.sprites.back_shiny}
+                    src={
+                      pokemon.sprites.back_shiny
+                        ? pokemon.sprites.back_shiny
+                        : logo
+                    }
                     alt=""
                     height={60}
                     width={60}
@@ -228,7 +251,12 @@ const LandingPage = () => {
               </div>
 
               <div className="content-center justify-self-center">
-                <Image src={pokemon.artwork} alt="" height={250} width={250} />
+                <Image
+                  src={pokemon.artwork ? pokemon.artwork : logo}
+                  alt=""
+                  height={250}
+                  width={250}
+                />
               </div>
             </div>
           </section>

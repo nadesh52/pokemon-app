@@ -25,8 +25,9 @@ function FilterType({ selectedType }: any) {
                 onChange={handleChange}
                 className="hidden peer"
               />
+              {/* /assets/icons/types/${type.name}.png */}
               <Image
-                src={`/assets/icons/types/${type.name}.png`}
+                src={require(`@/public/assets/icons/types/${type.name}.png`)}
                 alt="icon-gray"
                 height={30}
                 width={30}
