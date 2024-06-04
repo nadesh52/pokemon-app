@@ -12,12 +12,15 @@ type EvoPoke = {
 
 const URL = "https://pokeapi.co/api/v2/pokemon/";
 
-const EvoChain = ({ evoData, onEvoClick }: any) => {
+const EvoChain = ({ speciesData, onEvoClick }: any) => {
   const [evoChain, setEvoChain] = useState([]);
   const [isPending, setIsPending] = useState(true);
 
-  const getEvoChain = async (evoChainJson: any) => {
+  const getEvoChain = async (speciesData: any) => {
     setIsPending(true);
+
+    const evoChain = await fetch(speciesData.evolution_chain.url);
+    const evoChainJson = await evoChain.json();
 
     if (evoChainJson.chain.evolves_to.length !== 0) {
       evoChainJson.chain.evolves_to.map(async (stage2: any) => {
@@ -139,8 +142,8 @@ const EvoChain = ({ evoData, onEvoClick }: any) => {
     }
   };
   useEffect(() => {
-    getEvoChain(evoData);
-  }, [evoData]);
+    getEvoChain(speciesData);
+  }, [speciesData]);
 
   return (
     <div className="bg-skin-fill-light p-4">

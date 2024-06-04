@@ -3,7 +3,6 @@ import {
   faLinkedin,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import { faCopyright } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
@@ -13,7 +12,6 @@ const Footer = () => {
       <div className="flex flex-col items-center justify-center gap-2">
         <div>
           <span>copyright</span>
-          <FontAwesomeIcon icon={faCopyright} size="sm" />
         </div>
 
         <div className="flex items-center gap-4">

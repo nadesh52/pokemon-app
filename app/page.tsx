@@ -9,6 +9,10 @@ import Image from "next/image";
 import LoadingBlock from "@/components/LoadingBlock";
 import NavPokemon from "@/components/NavPokemon";
 import EvoChain from "@/components/EvoChain";
+import getTheme from "@/utils/getTheme";
+import getRandomFavor from "@/utils/getRandomFavor";
+import getPokemonName from "@/utils/getPokemonName";
+import DiscoverButton from "@/components/DiscoverButton";
 
 const initPoke = {
   id: 0,
@@ -47,60 +51,25 @@ const LandingPage = () => {
       const res = await fetch(`${URL}/${pokeId}`);
       const jsonData = await res.json();
 
-      if (jsonData.types.length >= 2) {
-        if (jsonData.types[0].type.name === "normal") {
-          const newTheme = `theme-${jsonData.types[1].type.name}`;
-          setTheme(newTheme);
-        } else {
-          const newTheme = `theme-${jsonData.types[0].type.name}`;
-          setTheme(newTheme);
-        }
-      } else {
-        const newTheme = `theme-${jsonData.types[0].type.name}`;
-        setTheme(newTheme);
-      }
-
       const resSpecies = await fetch(jsonData.species.url);
       const jsonSpecies = await resSpecies.json();
 
-      const getName = (name: any): string => {
-        const findingName = name
-          .filter((n: any) => n.language.name === "en")
-          .map((na: any) => {
-            return na.name;
-          })
-          .join("");
-        return findingName;
-      };
-
-      const getRandomFavorText = () => {
-        const f = jsonSpecies.flavor_text_entries
-          .filter((n: any) => n.language.name === "en")
-          .map((m: any) => {
-            return m;
-          });
-
-        const randomPick = f[Math.floor(Math.random() * f.length)];
-        return randomPick;
-      };
+      const pokemonName = getPokemonName(jsonSpecies.names);
+      const flavorText = getRandomFavor(jsonSpecies);
 
       const poke = {
         id: jsonData.id,
-        name: getName(jsonSpecies.names),
+        name: pokemonName,
         sprites: jsonData.sprites,
         artwork: jsonData.sprites.other["official-artwork"]["front_default"],
         types: jsonData.types,
-        flavor_text: getRandomFavorText().flavor_text,
-        flavor_version: getRandomFavorText().version.name,
+        flavor_text: flavorText.flavor_text,
+        flavor_version: flavorText.version.name,
       };
+
+      setTheme(getTheme(jsonData));
+      setEvoData(jsonSpecies);
       setPokemon(poke);
-
-      // evo chain //
-
-      const evoChain = await fetch(jsonSpecies.evolution_chain.url);
-      const evoChainJson = await evoChain.json();
-
-      setEvoData(evoChainJson);
       setIsPending(false);
     } catch (error) {
       throw error;
@@ -115,7 +84,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     fetchData(pokeId);
-  }, [pokeId, theme]);
+  }, [pokeId]);
 
   return (
     <article className={`${theme}`}>
@@ -262,7 +231,10 @@ const LandingPage = () => {
           </section>
 
           <section>
-            <EvoChain evoData={evoData} onEvoClick={(e: any) => setPokeId(e)} />
+            <EvoChain
+              speciesData={evoData}
+              onEvoClick={(e: any) => setPokeId(e)}
+            />
 
             <div className="grid grid-cols-2 px-4 my-4">
               <div className="content-center justify-self-center">
@@ -277,12 +249,7 @@ const LandingPage = () => {
               <div className="flex flex-col gap-4">
                 <p className="indent-8">{titleStr}</p>
                 <p className="indent-8">{titleStr2}</p>
-                <a
-                  className="bg-skin-button-accent w-fit py-2 px-3 rounded-md text-white text-skin-base text-lg font-josefin font-medium hover:bg-skin-button-accent-hover"
-                  href="/table"
-                >
-                  Discover More
-                </a>
+                <DiscoverButton />
               </div>
             </div>
           </section>

@@ -28,7 +28,7 @@ function FilterType({ selectedType }: any) {
               {/* /assets/icons/types/${type.name}.png */}
               <Image
                 src={require(`@/public/assets/icons/types/${type.name}.png`)}
-                alt="icon-gray"
+                alt={`icon-${type.name}`}
                 height={30}
                 width={30}
                 className="grayscale peer-checked:grayscale-0"
